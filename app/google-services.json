@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "119773132645",
+    "project_id": "quiz-project-6afd9",
+    "storage_bucket": "quiz-project-6afd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119773132645:android:0a42c05be083658d44538c",
+        "android_client_info": {
+          "package_name": "com.dinocodeacademy.maingoquizagain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119773132645-b1m1o3cg2iqus7slp1vk0ck2c35kh6pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5TCcVNsy86V56ZDuLupM38fnL24Vn7Z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119773132645-b1m1o3cg2iqus7slp1vk0ck2c35kh6pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

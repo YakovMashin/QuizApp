@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--
+       Tutorial Three Content and After creating the Drawable files
+       for the button Backgrounds
+    -->
+
+    <color name="colorPrimary">#601CA8</color>
+    <color name="colorPrimaryDark">#D5A1E0</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+
+    <color name="nav_color">#E7E9FB</color>
+    <color name="cat_heading">#142588</color>
+
+    <!--Sign In Colors-->
+    <color name="dark_blue">#132875</color>
+    <color name="rad_rectangle_color">#7E79CC</color>
+    <color name="signin_txt_color">#F1F0FF</color>
+
+    <color name="header_color">#2133A0</color>
+    <color name="Transparent">#00000000</color>
+    <color name="light_blue">#1C8ED9</color>
+    <color name="gra_medium_blue">#2618A8</color>
+</resources>
