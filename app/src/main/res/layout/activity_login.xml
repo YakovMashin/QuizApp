@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="27dp"
         android:layout_marginTop="40dp"
-        android:text="Hello There"
+        android:text="Hello There,"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="normal"
         android:transitionName="sp_trans" />
 
@@ -39,7 +39,7 @@
         android:layout_marginStart="27dp"
         android:layout_marginTop="2dp"
         android:includeFontPadding="true"
-        android:text="Welcome"
+        android:text="Welcome Back!"
         android:textColor="@color/white"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -57,6 +57,7 @@
         android:transitionName="signin_cont" />
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -64,15 +65,18 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
             android:id="@+id/email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="50dp"
             android:hint="Email"
-            android:textColorHint="@color/signin_txt_color"
+            android:textColorHint="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:transitionName="email_trans"
             app:boxCornerRadiusBottomEnd="25dp"
             app:boxCornerRadiusTopStart="25dp"
@@ -80,21 +84,55 @@
             app:boxStrokeWidth="0.5dp"
             app:errorTextAppearance="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:maxLength="40"
-                android:maxLines="1"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+        </EditText>
 
-        </com.google.android.material.textfield.TextInputLayout>
+        <EditText
+            android:id="@+id/password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="50dp"
+            android:hint="Password"
+            android:textColorHint="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:transitionName="email_trans"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:boxCornerRadiusTopStart="25dp"
+            app:boxStrokeColor="@color/rad_rectangle_color"
+            app:boxStrokeWidth="0.5dp"
+            app:errorTextAppearance="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+        </EditText>
 
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/go_btn"
+        android:layout_width="210dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/signin_go"
+        android:transitionName="start_btn_trans" />
 
+    <TextView
+    android:id="@+id/signup_tv"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="25dp"
+    android:text="Forgot Your password?"
+    android:textColor="@color/white"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    android:transitionName="new_user_trans"
+        android:clickable="true"/>
 
 
 
