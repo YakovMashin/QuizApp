@@ -20,6 +20,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_final_dialog20.xml" value="0.14" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_final_dialog70.xml" value="0.1234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_levels.xml" value="0.1234375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_login.xml" value="0.14719202898550723" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_play.xml" value="0.12" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_quiz.xml" value="0.16" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_result.xml" value="0.1234375" />
@@ -82,7 +83,7 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

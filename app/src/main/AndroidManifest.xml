@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity android:name=".LevelsActivity" />
         <activity
             android:name=".CategoryActivity"
@@ -29,7 +32,12 @@
         <activity android:name=".PlayActivity" />
         <activity android:name=".ResultActivity" />
         <activity android:name=".Settings" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".SignUp"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
