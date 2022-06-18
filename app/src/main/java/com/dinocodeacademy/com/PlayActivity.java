@@ -58,8 +58,8 @@ public class PlayActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            setResult(RESULT_OK, new Intent().putExtra("Exit", true));
-                            finish();
+                            setResult(RESULT_OK, new Intent().putExtra("Exit", false));
+                            System.exit(0);
                         }
                     }).create().show();
 
@@ -75,6 +75,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onStop();
         Log.i("BUGBUG","onStop() in PlayActivity");
         finish();
+        System.exit(0);
 
     }
 }
