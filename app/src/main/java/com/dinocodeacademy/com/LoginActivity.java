@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText et_Email,et_Password;
@@ -53,6 +54,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.forgot_tv:
+                Intent i = new Intent(LoginActivity.this,ForgotPassword.class);
+                startActivity(i);
 
                 break;
 
@@ -89,8 +92,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Intent i = new Intent(LoginActivity.this,SplashScreen.class);
-                    startActivity(i);
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if(user.isEmailVerified()){
+                        Intent i = new Intent(LoginActivity.this,SplashScreen.class);
+                        startActivity(i);
+                    }else{
+                        progressBar.setVisibility(View.GONE);
+                        user.sendEmailVerification();
+                        Toast.makeText(LoginActivity.this,
+                                "Check your email to verify your account",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+
 
                 }
                 else{
