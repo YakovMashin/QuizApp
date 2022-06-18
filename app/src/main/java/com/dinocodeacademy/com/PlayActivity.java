@@ -1,6 +1,5 @@
 package com.dinocodeacademy.com;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,13 +46,10 @@ public class PlayActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Do you  want to exit?")
                     .setNegativeButton("No", null)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    .setPositiveButton("Yes", (dialog, which) -> {
 
-                            setResult(RESULT_OK, new Intent().putExtra("Exit", false));
-                            System.exit(0);
-                        }
+                        setResult(RESULT_OK, new Intent().putExtra("Exit", false));
+                        System.exit(0);
                     }).create().show();
 
         }else  {

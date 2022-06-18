@@ -2,7 +2,6 @@ package com.dinocodeacademy.com;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,17 +25,14 @@ public class Settings extends AppCompatActivity {
 
 
 
-        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(compoundButton.isChecked()){
-                    imageViewOn.setImageResource((R.drawable.sound_off));
-                    soundOn = false;
-                }
-                else{
-                    imageViewOn.setImageResource(R.drawable.sound_on);
-                    soundOn = true;
-                }
+        switchButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(compoundButton.isChecked()){
+                imageViewOn.setImageResource((R.drawable.sound_off));
+                soundOn = false;
+            }
+            else{
+                imageViewOn.setImageResource(R.drawable.sound_on);
+                soundOn = true;
             }
         });
     }

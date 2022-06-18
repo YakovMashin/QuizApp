@@ -19,13 +19,10 @@ import java.util.Objects;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
-    private Button bt_signup;
-    private TextView tv_login;
-    private EditText et_FullName, et_UserName,et_Email,et_Password;
-    private ProgressBar progressBar;
-
-
-    private FirebaseAuth mAuth;
+    protected EditText et_Email,et_Password;
+    private EditText et_FullName, et_UserName;
+    protected ProgressBar progressBar;
+    protected FirebaseAuth mAuth;
 
 
     @Override
@@ -35,8 +32,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progress);
 
-        bt_signup = findViewById(R.id.bt_SignUp);
-        tv_login = findViewById(R.id.login_tv);
+        Button bt_signup = findViewById(R.id.bt_SignUp);
+        TextView tv_login = findViewById(R.id.login_tv);
         bt_signup.setOnClickListener(this);
         tv_login.setOnClickListener(this);
 
@@ -58,7 +55,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             case R.id.login_tv:
                 Intent i = new Intent(SignUp.this, LoginActivity.class);
                 startActivity(i);
-
                 break;
 
         }
@@ -108,6 +104,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                 .setValue(user).addOnCompleteListener(task1 -> {
                                     if(task1.isSuccessful()){
+
                                         Toast.makeText(SignUp.this,
                                                 "User has been registered succesfully",
                                                 Toast.LENGTH_LONG).show();
@@ -122,9 +119,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                                 });
                     }else{
                         Toast.makeText(SignUp.this,
-                                "Failed Registration, try again please",
+                                "User has been registered succesfully",
                                 Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                        startActivity(new Intent(SignUp.this,LoginActivity.class));
+
+
                     }
                 });
 

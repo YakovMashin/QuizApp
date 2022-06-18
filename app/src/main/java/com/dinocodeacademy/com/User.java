@@ -2,7 +2,7 @@ package com.dinocodeacademy.com;
 
 public class User {
 
-    public String fullName,userName, email, password;
+    public String fullName,userName, email;
 
     public User() {
 

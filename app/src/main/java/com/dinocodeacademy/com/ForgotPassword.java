@@ -5,43 +5,28 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ForgotPassword extends AppCompatActivity {
-
-    private Button bt_resetPassword;
-    private EditText et_Email;
-    private TextView backToLogin;
-    private ProgressBar progressBar;
-
-    FirebaseAuth mAuth;
+public class ForgotPassword extends LoginActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-        bt_resetPassword = findViewById(R.id.reset_password_btn);
+        Button bt_resetPassword = findViewById(R.id.reset_password_btn);
         et_Email = findViewById(R.id.reset_email);
-        backToLogin = findViewById(R.id.to_login_tv);
+        TextView backToLogin = findViewById(R.id.to_login_tv);
         progressBar = findViewById(R.id.progress);
 
         mAuth = FirebaseAuth.getInstance();
 
-        bt_resetPassword.setOnClickListener(v -> {
-            resetPassword();
-        });
+        bt_resetPassword.setOnClickListener(v -> resetPassword());
 
-        backToLogin.setOnClickListener(v -> {
-            startActivity(new Intent(ForgotPassword.this, LoginActivity.class));
-        });
+        backToLogin.setOnClickListener(v -> startActivity(new Intent(ForgotPassword.this, LoginActivity.class)));
     }
 
     private void resetPassword() {
@@ -68,8 +53,6 @@ public class ForgotPassword extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
 
     @Override
