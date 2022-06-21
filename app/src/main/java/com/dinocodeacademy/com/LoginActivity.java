@@ -79,20 +79,9 @@ public class LoginActivity extends SignUp implements View.OnClickListener{
             if(task.isSuccessful()){
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
-                if(user.isEmailVerified()){
                     finishAffinity();
                     Intent i = new Intent(LoginActivity.this,SplashScreen.class);
                     startActivity(i);
-                }else{
-                    progressBar.setVisibility(View.GONE);
-                    user.sendEmailVerification();
-                    Toast.makeText(LoginActivity.this,
-                            "Check your email to verify your account",
-                            Toast.LENGTH_LONG).show();
-
-                }
-
-
             }
             else{
                 Toast.makeText(LoginActivity.this,

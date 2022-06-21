@@ -10,9 +10,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
@@ -24,6 +30,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     protected ProgressBar progressBar;
     protected FirebaseAuth mAuth;
 
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progress);
+        if(mAuth.getCurrentUser()!= null){
+            startActivity(new Intent(SignUp.this, SplashScreen.class));
+        }
 
         Button bt_signup = findViewById(R.id.bt_SignUp);
         TextView tv_login = findViewById(R.id.login_tv);
@@ -41,7 +51,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         et_UserName = findViewById(R.id.reg_UserName);
         et_Email = findViewById(R.id.Email);
         et_Password = findViewById(R.id.Password);
-
     }
 
     @Override
@@ -96,37 +105,40 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        User user = new User(fullName,userName,email);
-                        FirebaseDatabase.getInstance().getReference("Users")
-                                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                .setValue(user).addOnCompleteListener(task1 -> {
-                                    if(task1.isSuccessful()){
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                        Toast.makeText(SignUp.this,
-                                                "User has been registered succesfully",
-                                                Toast.LENGTH_LONG).show();
-                                        progressBar.setVisibility(View.VISIBLE);
+                if (task.isSuccessful()) {
 
-                                    }else{
-                                        Toast.makeText(SignUp.this,
-                                                "Failed Registration, try again please",
-                                                Toast.LENGTH_LONG).show();
-                                        progressBar.setVisibility(View.GONE);
-                                    }
-                                });
-                    }else{
-                        Toast.makeText(SignUp.this,
-                                "failed registration, wassup",
-                                Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.VISIBLE);
-                        //startActivity(new Intent(SignUp.this,LoginActivity.class));
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                    assert currentUser != null;
+                    String Email = currentUser.getEmail();
+                    String uid = currentUser.getUid();
 
+                    User user = new User(fullName,userName,Email);
 
-                    }
-                });
+                    databaseReference.child(uid).setValue(user);
+                    mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
+                            if (task.isSuccessful()) {
+
+                                Toast.makeText(SignUp.this, "verification email sent to " + email, Toast.LENGTH_LONG).show();
+                                Intent emailVerify = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(emailVerify);
+
+                            } else {
+                                Toast.makeText(SignUp.this, "Check Internet Connection" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(SignUp.this, "Check Internet Connection" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                }
+                }
+            });
     }
 }
