@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/result_text_High_Score"
             android:text="High Score: "
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textAlignment="textStart"

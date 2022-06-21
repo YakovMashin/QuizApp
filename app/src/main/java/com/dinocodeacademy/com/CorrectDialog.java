@@ -20,7 +20,7 @@ public class CorrectDialog   {
         this.mContext = mContext;
     }
 
-    public void correctDialog(int score, final QuizActivity quizActivity, int streakCounter, final OnFireDialog onFire){
+    public void correctDialog(int score, final QuizActivity quizActivity, int streakCounter, final OnFireDialog onFire, int questionCounter, int size){
 
         correctDialog = new Dialog(mContext);
         correctDialog.setContentView(R.layout.correct_dialog);
@@ -43,7 +43,7 @@ public class CorrectDialog   {
 
         Objects.requireNonNull(correctDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        if(streakCounter %5 ==0 && streakCounter !=0){
+        if(streakCounter %5 ==0 && streakCounter !=0 && questionCounter != size){
             correctDialog.dismiss();
             onFire.onFireDialog(correctDialog, quizActivity);
             quizActivity.multiplier = 2;

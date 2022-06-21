@@ -119,10 +119,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                                 });
                     }else{
                         Toast.makeText(SignUp.this,
-                                "User has been registered succesfully",
+                                "failed registration, wassup",
                                 Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.VISIBLE);
-                        startActivity(new Intent(SignUp.this,LoginActivity.class));
+                        //startActivity(new Intent(SignUp.this,LoginActivity.class));
 
 
                     }

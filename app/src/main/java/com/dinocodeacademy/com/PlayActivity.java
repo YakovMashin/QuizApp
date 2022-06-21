@@ -48,7 +48,7 @@ public class PlayActivity extends AppCompatActivity {
                     .setNegativeButton("No", null)
                     .setPositiveButton("Yes", (dialog, which) -> {
 
-                        setResult(RESULT_OK, new Intent().putExtra("Exit", false));
+                        setResult(RESULT_OK, new Intent().putExtra("Exit", true));
                         System.exit(0);
                     }).create().show();
 

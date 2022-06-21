@@ -19,9 +19,6 @@ public final class QuizContract {
          public static final String COLUMN_ANSWER_NR = "answer_nr";
          public static final String COLUMN_CATEGORY = "category";
          public static final String COLUMN_LEVELS_ID = "levels_id";
-
-
-
      }
 
 

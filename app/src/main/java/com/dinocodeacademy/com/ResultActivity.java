@@ -2,8 +2,8 @@ package com.dinocodeacademy.com;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +18,7 @@ public class ResultActivity extends AppCompatActivity {
     Button btStartQuiz;
     Button btMainMenu;
 
+    private int score;
     private int highScore;
     public static final String SHARED_PREFERRENCE = "shread_prefrence";
     public static final String SHARED_PREFERRENCE_HIGH_SCORE = "shread_prefrence_high_score";
@@ -44,38 +45,25 @@ public class ResultActivity extends AppCompatActivity {
         int correctQues = intent.getIntExtra("CorrectQues",0);
         int wrongQues = intent.getIntExtra("WrongQues",0);
         final String category = intent.getStringExtra("Category");
-        final int Level = intent.getIntExtra("Level", 0);
+        final int Level = intent.getIntExtra("Level", 1);
 
-        btMainMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btMainMenu.setOnClickListener(v -> {
 
-                Intent intent = new Intent(ResultActivity.this, PlayActivity.class);
-                startActivity(intent);
+            Intent intent1 = new Intent(ResultActivity.this, PlayActivity.class);
+            startActivity(intent1);
 
-            }
         });
 
-        btStartQuiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btStartQuiz.setOnClickListener(v -> {
 
-                Intent intent = new Intent(ResultActivity.this, QuizActivity.class);
-                intent.putExtra("Category",category);
-                intent.putExtra("Level", Level);
-                startActivity(intent);
-            }
+            Intent intent12 = new Intent(ResultActivity.this, QuizActivity.class);
+            intent12.putExtra("Category",category);
+            intent12.putExtra("Level", Level);
+            startActivity(intent12);
         });
 
 
         loadHighScore();
-
-
-
-
-        txtTotalQuizQues.setText("Total Ques: " + totalQuestion);
-        txtCorrectQues.setText("Correct: " + correctQues);
-        txtWrongQues.setText("Wrong: " + wrongQues);
 
         if (score > highScore){
 
@@ -83,12 +71,17 @@ public class ResultActivity extends AppCompatActivity {
         }
 
 
+        txtHighScore.setText("High Score: "+ highScore);
+        txtTotalQuizQues.setText("Total Ques: " + totalQuestion);
+        txtCorrectQues.setText("Correct: " + correctQues);
+        txtWrongQues.setText("Wrong: " + wrongQues);
+
     }
 
     private void updatHighScore(int newHighScore) {
 
         highScore = newHighScore;
-        txtHighScore.setText("High Score: " + String.valueOf(highScore));
+        txtHighScore.setText("High Score: " + highScore);
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERRENCE,MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -99,11 +92,15 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void loadHighScore() {
-
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERRENCE,MODE_PRIVATE);
-        highScore = sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE,0);
-        txtHighScore.setText("High Score: " + String.valueOf(highScore));
-
+        if(sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE, 0) == 0){
+            highScore = score;
+        }
+        else {
+            highScore = sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE, 0);
+        }
+        txtHighScore.setText("High Score: " + highScore);
+        txtHighScore.setTextColor(Color.WHITE);
     }
 
     @Override

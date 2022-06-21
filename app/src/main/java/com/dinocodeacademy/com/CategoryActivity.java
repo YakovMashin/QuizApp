@@ -35,7 +35,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
                 Intent intentHistory = new Intent(CategoryActivity.this, LevelsActivity.class);
                 intentHistory.putExtra("Category", Constants.HISTORY);
                 startActivity(intentHistory);
-
                 break;
 
             case R.id.bt_tech_start:

@@ -1,5 +1,6 @@
 package com.dinocodeacademy.com;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -314,6 +315,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         db.insert(QuestionTable.TABLE_NAME,null,cv);
 
     }
+    @SuppressLint("Range")
     public ArrayList<Questions> getLevelAndCategoryQuestions(int level, String category) {
 
         ArrayList<Questions> questionList = new ArrayList<>();

@@ -1,10 +1,8 @@
 package com.dinocodeacademy.com;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -25,9 +23,6 @@ import java.util.Locale;
 
 
 public class QuizActivity extends AppCompatActivity {
-
-    private Context mContext;
-    private MediaPlayer mediaPlayer;
 
     private RadioGroup rbGroup;
     private RadioButton rb1;
@@ -51,11 +46,10 @@ public class QuizActivity extends AppCompatActivity {
     public int multiplier =1;
     private int streakCounter =0;
     private Questions currentQuestions;
-    private boolean answered;
-
-    private final Handler handler = new Handler();
-
-    private int correctAns = 0, wrongAns = 0;
+    private int correctAns = 0;
+    private int wrongAns = 0;
+    int FLAG = 0;
+    int score =0;
 
     private TimerDialog timerDialog;
     private CorrectDialog correctDialog;
@@ -64,18 +58,15 @@ public class QuizActivity extends AppCompatActivity {
 
     private PlayAudioForAnswers playAudioForAnswers;
 
-    int FLAG = 0;
-    int score =0;
-
-
     private static final long COUNTDOWN_IN_MILLIS = 30000;
     private CountDownTimer countDownTimer;
     private long timeleftinMillis;
-
     private long backPressedTime;
 
     private String categoryValue;
     private int levelValue;
+
+    private final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,8 +205,7 @@ public class QuizActivity extends AppCompatActivity {
          });
 
          buttonConfirmNext.setOnClickListener(v -> {
-
-             if (!answered) {
+             //if (!answered) {
                  if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()) {
 
                      quizOperation();
@@ -223,7 +213,7 @@ public class QuizActivity extends AppCompatActivity {
 
                      Toast.makeText(QuizActivity.this, "Please Select the Answer ", Toast.LENGTH_SHORT).show();
                  }
-             }
+            // }
          });
 
     }
@@ -252,11 +242,8 @@ public class QuizActivity extends AppCompatActivity {
             rb2.setText(currentQuestions.getOption2());
             rb3.setText(currentQuestions.getOption3());
             rb4.setText(currentQuestions.getOption4());
-
             questionCounter++;
-            answered = false;
             buttonConfirmNext.setText("Confirm");
-
             textViewQuestionCount.setText("Questions: " + questionCounter + "/" + questionTotalCount);
 
 
@@ -281,7 +268,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void quizOperation() {
-        answered = true;
 
         countDownTimer.cancel();
 
@@ -300,9 +286,7 @@ public class QuizActivity extends AppCompatActivity {
         switch (currentQuestions.getAnswerNr()) {
             case 1:
                 if (currentQuestions.getAnswerNr() == answerNr) {
-                    rb1.setBackground(ContextCompat.getDrawable(
-                            this, R.drawable.correct_option_background));
-                    rb1.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
                 } else {
@@ -316,8 +300,7 @@ public class QuizActivity extends AppCompatActivity {
             case 2:
                 if (currentQuestions.getAnswerNr() == answerNr) {
 
-                    rb2.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
-                    rb2.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
 
@@ -332,8 +315,7 @@ public class QuizActivity extends AppCompatActivity {
             case 3:
                 if (currentQuestions.getAnswerNr() == answerNr) {
 
-                    rb3.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
-                    rb3.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
 
@@ -351,11 +333,9 @@ public class QuizActivity extends AppCompatActivity {
             case 4:
                 if (currentQuestions.getAnswerNr() == answerNr) {
 
-                    rb4.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
-                    rb4.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
-
 
                 } else {
                     streakCounter =0;
@@ -363,7 +343,6 @@ public class QuizActivity extends AppCompatActivity {
                     changetoIncorrectColor(rbselected);
                     String correctAnswer = (String) rb4.getText();
                     wrongDialog.wrongDialog(correctAnswer,this);
-
 
                 }
                 break;
@@ -374,7 +353,7 @@ public class QuizActivity extends AppCompatActivity {
             correctAns++;
             score += 10 * multiplier;
             textViewScore.setText("Score: " + score);
-            correctDialog.correctDialog(score,this, streakCounter, fireDialog);
+            correctDialog.correctDialog(score,this, streakCounter, fireDialog, questionCounter, questionTotalCount);
         }
         else{
             FLAG = 2;
@@ -390,6 +369,10 @@ public class QuizActivity extends AppCompatActivity {
     void changetoIncorrectColor(RadioButton rbselected) {
         rbselected.setBackground(ContextCompat.getDrawable(this, R.drawable.wrong_answer_background));
 
+        rbselected.setTextColor(Color.BLACK);
+    }
+    void changeToCorrectColor(RadioButton rbselected){
+        rbselected.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
         rbselected.setTextColor(Color.BLACK);
     }
 
@@ -412,49 +395,29 @@ public class QuizActivity extends AppCompatActivity {
 
                 timeleftinMillis = 0;
                 updateCountDownText();
-
             }
         }.start();
-
     }
-
-
 
     private void updateCountDownText(){
 
      int minutes = (int) (timeleftinMillis/1000) /60;
      int seconds = (int) (timeleftinMillis/1000) % 60;
 
-      //  String timeFormatted = String.format(Locale.getDefault(),"02d:%02d",minutes,seconds);
-
-        String timeFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes, seconds);
+        String timeFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes, seconds);// time format
         textViewCountDown.setText(timeFormatted);
 
-
-     if (timeleftinMillis < 10000){
-         
-         
-         textViewCountDown.setTextColor(ContextCompat.getColor(this,R.color.red));
-         
+     if (timeleftinMillis < 10000){ // if less than 10 seconds left
+         textViewCountDown.setTextColor(ContextCompat.getColor(this,R.color.red));// change color to red
          FLAG = 3;
-         playAudioForAnswers.setAudioforAnswer(FLAG);
-         
-         
+         playAudioForAnswers.setAudioforAnswer(FLAG); // play ticking sound
+
      }else {
          textViewCountDown.setTextColor(ContextCompat.getColor(this,R.color.black));
      }
-
-
-     if (timeleftinMillis == 0 ){
-
-
+     if (timeleftinMillis == 0 ){// time is up
          Toast.makeText(this, "Times Up!", Toast.LENGTH_SHORT).show();
-
-
          handler.postDelayed(() -> timerDialog.timerDialog(),2000);
-
-
-
      }
     }
 
@@ -506,7 +469,6 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void showResultDialog(int score){
-        //mediaPlayer.stop();
         if(correctAns == questionList.size()){
             Intent resultData = new Intent(QuizActivity.this, FinalDialog100.class);
             resultData.putExtra("UserScore",score);
@@ -555,7 +517,7 @@ public class QuizActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()){
 
-            Intent intent = new Intent(QuizActivity.this,PlayActivity.class);
+            Intent intent = new Intent(QuizActivity.this,CategoryActivity.class);
             startActivity(intent);
 
         }else {
@@ -563,14 +525,5 @@ public class QuizActivity extends AppCompatActivity {
 
         }
         backPressedTime = System.currentTimeMillis();
-    }
-    private void playMusic(int audiofile) {
-
-        mediaPlayer = MediaPlayer.create(mContext,audiofile);
-
-        mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
-
-        mediaPlayer.setOnCompletionListener(mp -> mediaPlayer.release());
-
     }
 }

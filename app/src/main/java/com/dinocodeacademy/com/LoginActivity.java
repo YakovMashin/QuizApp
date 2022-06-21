@@ -80,6 +80,7 @@ public class LoginActivity extends SignUp implements View.OnClickListener{
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
                 if(user.isEmailVerified()){
+                    finishAffinity();
                     Intent i = new Intent(LoginActivity.this,SplashScreen.class);
                     startActivity(i);
                 }else{
