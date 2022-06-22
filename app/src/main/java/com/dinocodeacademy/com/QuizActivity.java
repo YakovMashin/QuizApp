@@ -2,6 +2,7 @@ package com.dinocodeacademy.com;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -55,6 +56,7 @@ public class QuizActivity extends AppCompatActivity {
     private CorrectDialog correctDialog;
     private WrongDialog wrongDialog;
     private OnFireDialog fireDialog;
+    private  Settings settings;
 
     private PlayAudioForAnswers playAudioForAnswers;
 
@@ -74,6 +76,8 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         setupUI();
 
+        loadPreferences();
+
         Intent intentCategoryLevel = getIntent();
 
         levelValue = intentCategoryLevel.getIntExtra("Level",0);
@@ -89,12 +93,11 @@ public class QuizActivity extends AppCompatActivity {
         wrongDialog = new WrongDialog(this);
         fireDialog = new OnFireDialog(this);
         playAudioForAnswers = new PlayAudioForAnswers(this);
+
     }
 
 
-
     private void setupUI(){
-       // playMusic(R.raw.theme_music);
         textViewQuestion = findViewById(R.id.txtQuestionContainer);
         
         textViewScore = findViewById(R.id.txtScore);
@@ -111,7 +114,7 @@ public class QuizActivity extends AppCompatActivity {
         buttonConfirmNext = findViewById(R.id.button);
 
         BackBtn = findViewById(R.id.backBtn);
-
+        settings = new Settings(this);
     }
 
     public void fetchDB() {
@@ -205,7 +208,6 @@ public class QuizActivity extends AppCompatActivity {
          });
 
          buttonConfirmNext.setOnClickListener(v -> {
-             //if (!answered) {
                  if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()) {
 
                      quizOperation();
@@ -213,7 +215,6 @@ public class QuizActivity extends AppCompatActivity {
 
                      Toast.makeText(QuizActivity.this, "Please Select the Answer ", Toast.LENGTH_SHORT).show();
                  }
-            // }
          });
 
     }
@@ -360,7 +361,9 @@ public class QuizActivity extends AppCompatActivity {
             wrongAns ++;
         }
 
-        playAudioForAnswers.setAudioforAnswer(FLAG);
+        if(settings.getSoundState().equals(settings.PREFERRENCE_SOUND_ON))
+        {playAudioForAnswers.setAudioforAnswer(FLAG);}
+
         if (questionCounter == questionTotalCount) {
             buttonConfirmNext.setText("Confirm and Finish");
         }
@@ -475,10 +478,9 @@ public class QuizActivity extends AppCompatActivity {
             resultData.putExtra("TotalQuestion",questionTotalCount);
             resultData.putExtra("CorrectQues",correctAns);
             resultData.putExtra("WrongQues",wrongAns);
-            resultData.putExtra("Category", categoryValue);
+            resultData.putExtra("Category", categoryValue.toString());
             resultData.putExtra("Level", levelValue);
             startActivity(resultData);
-
         }
         else if (correctAns >= questionList.size()*0.7){
             Intent resultData = new Intent(QuizActivity.this, FinalDialog70.class);
@@ -525,5 +527,11 @@ public class QuizActivity extends AppCompatActivity {
 
         }
         backPressedTime = System.currentTimeMillis();
+    }
+    private void loadPreferences() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(settings.PREFERRENCE, MODE_PRIVATE);
+        String sound = sharedPreferences.getString(settings.SOUND_STATE,settings.PREFERRENCE_SOUND_ON);
+        settings.setSoundState(sound);
     }
 }

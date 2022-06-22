@@ -27,11 +27,7 @@ public class CorrectDialog   {
         correctDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         Button btCorrectDialog = correctDialog.findViewById(R.id.bt_correct_dialog);
-
         score(score);
-
-
-
         btCorrectDialog.setOnClickListener(v -> {
             correctDialog.dismiss();
             quizActivity.showQuestions();
@@ -48,7 +44,6 @@ public class CorrectDialog   {
             onFire.onFireDialog(correctDialog, quizActivity);
             quizActivity.multiplier = 2;
         }
-
     }
 
     @SuppressLint("SetTextI18n")

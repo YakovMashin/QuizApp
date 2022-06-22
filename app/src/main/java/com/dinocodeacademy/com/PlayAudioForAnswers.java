@@ -15,12 +15,8 @@ public class PlayAudioForAnswers {
 
 
     public void setAudioforAnswer(int flag) {
-        if (Settings.soundOn == true) {
-
             switch (flag) {
-
                 case 1:
-
                     int correctAudio = R.raw.correct;
                     playMusic(correctAudio);
                     break;
@@ -32,30 +28,15 @@ public class PlayAudioForAnswers {
                     int timerAudio = R.raw.timetick;
                     playMusic(timerAudio);
                     break;
-
-
             }
-
         }
-    }
-
     private void playMusic(int audiofile) {
 
         mediaPlayer = MediaPlayer.create(mContext,audiofile);
 
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mediaPlayer.start();
-            }
-        });
+        mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mediaPlayer.release();
-            }
-        });
+        mediaPlayer.setOnCompletionListener(mp -> mediaPlayer.release());
 
 
 

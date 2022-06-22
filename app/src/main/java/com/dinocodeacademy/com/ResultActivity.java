@@ -10,10 +10,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public class ResultActivity extends AppCompatActivity {
 
     TextView txtHighScore;
     TextView txtTotalQuizQues,txtCorrectQues,txtWrongQues;
+
+
+
+    private FirebaseUser user;
+    private String userID;
 
     Button btStartQuiz;
     Button btMainMenu;
@@ -44,8 +51,9 @@ public class ResultActivity extends AppCompatActivity {
         int totalQuestion = intent.getIntExtra("TotalQuestion",0);
         int correctQues = intent.getIntExtra("CorrectQues",0);
         int wrongQues = intent.getIntExtra("WrongQues",0);
-        final String category = intent.getStringExtra("Category");
+        final String Category = intent.getStringExtra("Category");
         final int Level = intent.getIntExtra("Level", 1);
+
 
         btMainMenu.setOnClickListener(v -> {
 
@@ -55,11 +63,15 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         btStartQuiz.setOnClickListener(v -> {
-
-            Intent intent12 = new Intent(ResultActivity.this, QuizActivity.class);
-            intent12.putExtra("Category",category);
-            intent12.putExtra("Level", Level);
-            startActivity(intent12);
+            if(Level == 3){
+                Toast.makeText(ResultActivity.this, "You've reached last level", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Intent intent12 = new Intent(ResultActivity.this, QuizActivity.class);
+                intent12.putExtra("Level", Level + 1);
+                intent12.putExtra("Category", Category);
+                startActivity(intent12);
+            }
         });
 
 

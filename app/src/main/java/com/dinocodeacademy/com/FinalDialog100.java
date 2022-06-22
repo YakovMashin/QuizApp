@@ -45,7 +45,7 @@ public class FinalDialog100 extends AppCompatActivity {
                 resultData.putExtra("TotalQuestion", totalQuestion);
                 resultData.putExtra("CorrectQues", correctQues);
                 resultData.putExtra("WrongQues", wrongQues);
-                resultData.putExtra("category",category );
+                resultData.putExtra("Category",category );
                 resultData.putExtra("Level", Level);
                 startActivity(resultData);
 

@@ -24,7 +24,6 @@ public class PlayActivity extends AppCompatActivity {
 
     private long backPressedTime;
     private FirebaseUser user;
-    private DatabaseReference databaseReference;
 
     private String userID;
 
@@ -38,6 +37,7 @@ public class PlayActivity extends AppCompatActivity {
 
         Button btPlay = findViewById(R.id.bt_playbutton);
         Button settings = findViewById(R.id.bt_settings_button);
+        Button logout = findViewById(R.id.bt_logout);
 
         btPlay.setOnClickListener(v -> {
 
@@ -49,6 +49,10 @@ public class PlayActivity extends AppCompatActivity {
             Intent intent = new Intent(PlayActivity.this, Settings.class );
             startActivity(intent);
 
+        });
+        logout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(PlayActivity.this,SignUp.class));
         });
 
         user = FirebaseAuth.getInstance().getCurrentUser();
