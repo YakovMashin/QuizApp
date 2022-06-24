@@ -362,7 +362,8 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         if(settings.getSoundState().equals(settings.PREFERRENCE_SOUND_ON))
-        {playAudioForAnswers.setAudioforAnswer(FLAG);}
+            playAudioForAnswers.setAudioforAnswer(FLAG);
+
 
         if (questionCounter == questionTotalCount) {
             buttonConfirmNext.setText("Confirm and Finish");
@@ -514,6 +515,8 @@ public class QuizActivity extends AppCompatActivity {
 
         }
     }
+
+
 
     @Override
     public void onBackPressed() {

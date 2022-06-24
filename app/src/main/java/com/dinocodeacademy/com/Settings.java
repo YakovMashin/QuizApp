@@ -45,15 +45,10 @@ public class Settings extends AppCompatActivity {
 
         switchButton = findViewById(R.id.switchButton);
         imageViewOn = findViewById(R.id.sound_on);
-
-
         loadSound();
-
-
         switchButton.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
                 soundState = PREFERRENCE_SOUND_ON;
-                updateSoundState(soundState);
 
             }
             else{

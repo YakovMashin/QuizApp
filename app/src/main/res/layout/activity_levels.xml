@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="400dp"
+    android:layout_width="330dp"
     android:layout_height="470dp"
     android:layout_gravity="center"
     android:background="@color/dark_blue"
@@ -34,19 +34,19 @@
 
         <Button
             android:id="@+id/beginner"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/beginner_btn" />
 
         <Button
             android:id="@+id/professional"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/prof_btn" />
 
         <Button
             android:id="@+id/world_class"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/wc_btn" />
 

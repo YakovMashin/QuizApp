@@ -26,6 +26,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
     private NavigationView navigationView;
     LinearLayout linearLayout;
     static final float END_SCALE = 0.7f;
+    private LevelsDialog levelsDialog;
 
     private FirebaseAuth firebaseAuth;
     private TextView yourEmail, yourUserName;
@@ -50,6 +51,8 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         navigationView = findViewById(R.id.nav_view);
         linearLayout = findViewById(R.id.category_linear);
 
+        levelsDialog = new LevelsDialog(this);
+
         //navToggler_btn = findViewById(R.id.action_menu_presenter);
 
         toolbar  = findViewById(R.id.toolbar);
@@ -70,25 +73,16 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
 
         switch (view.getId()) {
             case R.id.bt_hist_start:
-                Intent intentHistory = new Intent(CategoryActivity.this, LevelsActivity.class);
-                intentHistory.putExtra("Category", Constants.HISTORY);
-                startActivity(intentHistory);
+                levelsDialog.LevelsDialog(Constants.HISTORY);
                 break;
 
             case R.id.bt_tech_start:
-                Intent intentTech = new Intent(CategoryActivity.this, LevelsActivity.class);
-                intentTech.putExtra("Category", Constants.TECHNOLOGY);
-                startActivity(intentTech);
-
+                levelsDialog.LevelsDialog(Constants.TECHNOLOGY);
                 break;
 
             case R.id.bt_prog_start:
-                Intent intentProg = new Intent(CategoryActivity.this, LevelsActivity.class);
-                intentProg.putExtra("Category", Constants.PROGRAMMING);
-                startActivity(intentProg);
+                levelsDialog.LevelsDialog(Constants.PROGRAMMING);
                 break;
-            case R.id.drawer_layout:
-
 
         }
 
