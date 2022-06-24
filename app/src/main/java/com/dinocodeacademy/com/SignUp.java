@@ -10,12 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -105,40 +101,34 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 
-                if (task.isSuccessful()) {
+            if (task.isSuccessful()) {
 
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
-                    assert currentUser != null;
-                    String Email = currentUser.getEmail();
-                    String uid = currentUser.getUid();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                assert currentUser != null;
+                String Email = currentUser.getEmail();
+                String uid = currentUser.getUid();
 
-                    User user = new User(fullName,userName,Email);
+                User user = new User(fullName,userName,Email);
 
-                    databaseReference.child(uid).setValue(user);
-                    mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                databaseReference.child(uid).setValue(user);
+                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
 
-                            if (task.isSuccessful()) {
+                    if (task1.isSuccessful()) {
 
-                                Toast.makeText(SignUp.this, "verification email sent to " + email, Toast.LENGTH_LONG).show();
-                                Intent emailVerify = new Intent(getApplicationContext(), LoginActivity.class);
-                                startActivity(emailVerify);
+                        Toast.makeText(SignUp.this, "verification email sent to " + email, Toast.LENGTH_LONG).show();
+                        Intent emailVerify = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(emailVerify);
 
-                            } else {
-                                Toast.makeText(SignUp.this, "Check Internet Connection" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(SignUp.this, "Check Internet Connection" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                }
-                }
+                    } else {
+                        Toast.makeText(SignUp.this, "Check Internet Connection" + Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(SignUp.this, "Check Internet Connection" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+            }
             });
     }
 }

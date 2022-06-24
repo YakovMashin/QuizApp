@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPassword extends LoginActivity {
 
+     FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,14 +24,14 @@ public class ForgotPassword extends LoginActivity {
         TextView backToLogin = findViewById(R.id.to_login_tv);
         progressBar = findViewById(R.id.progress);
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         bt_resetPassword.setOnClickListener(v -> resetPassword());
 
         backToLogin.setOnClickListener(v -> startActivity(new Intent(ForgotPassword.this, LoginActivity.class)));
     }
 
-    private void resetPassword() {
+    protected void resetPassword() {
         String email = et_Email.getText().toString().trim();
         if(email.isEmpty()){
             et_Email.setError("Please enter your email");
@@ -41,11 +43,12 @@ public class ForgotPassword extends LoginActivity {
             et_Email.requestFocus();
         }
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Toast.makeText(ForgotPassword.this,
                         "Check your email to reset your password",
                         Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
             }
             else{
                 Toast.makeText(ForgotPassword.this,

@@ -36,8 +36,6 @@ public class PlayActivity extends AppCompatActivity {
 
 
         Button btPlay = findViewById(R.id.bt_playbutton);
-        Button settings = findViewById(R.id.bt_settings_button);
-        Button logout = findViewById(R.id.bt_logout);
 
         btPlay.setOnClickListener(v -> {
 
@@ -45,16 +43,6 @@ public class PlayActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
-        settings.setOnClickListener(view -> {
-            Intent intent = new Intent(PlayActivity.this, Settings.class );
-            startActivity(intent);
-
-        });
-        logout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(PlayActivity.this,SignUp.class));
-        });
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         userID = user.getUid();

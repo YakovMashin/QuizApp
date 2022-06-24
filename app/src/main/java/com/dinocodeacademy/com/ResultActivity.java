@@ -10,22 +10,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseUser;
-
 public class ResultActivity extends AppCompatActivity {
 
     TextView txtHighScore;
-    TextView txtTotalQuizQues,txtCorrectQues,txtWrongQues;
+    TextView txtTotalQuizQues;
+    TextView txtCorrectQues;
+    TextView txtWrongQues;
 
-
-
-    private FirebaseUser user;
-    private String userID;
-
-    Button btStartQuiz;
+    Button btnextLevel;
     Button btMainMenu;
 
-    private int score;
     private int highScore;
     public static final String SHARED_PREFERRENCE = "shread_prefrence";
     public static final String SHARED_PREFERRENCE_HIGH_SCORE = "shread_prefrence_high_score";
@@ -39,7 +33,7 @@ public class ResultActivity extends AppCompatActivity {
 
 
         btMainMenu = findViewById(R.id.result_bt_mainmenu);
-        btStartQuiz = findViewById(R.id.result_bt_playAgain);
+        btnextLevel = findViewById(R.id.result_bt_playAgain);
         txtHighScore = findViewById(R.id.result_text_High_Score);
         txtTotalQuizQues = findViewById(R.id.result_total_Ques);
         txtCorrectQues = findViewById(R.id.result_Correct_Ques);
@@ -62,7 +56,7 @@ public class ResultActivity extends AppCompatActivity {
 
         });
 
-        btStartQuiz.setOnClickListener(v -> {
+        btnextLevel.setOnClickListener(v -> {
             if(Level == 3){
                 Toast.makeText(ResultActivity.this, "You've reached last level", Toast.LENGTH_LONG).show();
             }
@@ -74,20 +68,16 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
-
         loadHighScore();
 
         if (score > highScore){
 
             updatHighScore(score);
         }
-
-
         txtHighScore.setText("High Score: "+ highScore);
         txtTotalQuizQues.setText("Total Ques: " + totalQuestion);
         txtCorrectQues.setText("Correct: " + correctQues);
         txtWrongQues.setText("Wrong: " + wrongQues);
-
     }
 
     private void updatHighScore(int newHighScore) {
@@ -99,18 +89,11 @@ public class ResultActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(SHARED_PREFERRENCE_HIGH_SCORE,highScore);
         editor.apply();
-
-
     }
 
     private void loadHighScore() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERRENCE,MODE_PRIVATE);
-        if(sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE, 0) == 0){
-            highScore = score;
-        }
-        else {
-            highScore = sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE, 0);
-        }
+        highScore = sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE, 0);
         txtHighScore.setText("High Score: " + highScore);
         txtHighScore.setTextColor(Color.WHITE);
     }

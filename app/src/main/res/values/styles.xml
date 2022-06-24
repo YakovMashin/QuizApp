@@ -15,6 +15,12 @@
         <item name="android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
 
+    <style name="nav_theme">
+        <item name="colorPrimary">@color/header_color</item>
+        <item name="colorControlHighlight">@color/nav_color</item>
+
+    </style>
+
 
 
 </resources>

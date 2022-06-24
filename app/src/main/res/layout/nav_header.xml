@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="match_parent"
     android:background="@color/dark_blue"
     android:gravity="bottom"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
@@ -15,7 +15,7 @@
         android:src="@mipmap/ic_launcher_round"/>
 
     <TextView
-        android:id="@+id/tv_email"
+        android:id="@+id/header_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="your email"
@@ -24,7 +24,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
-        android:id="@+id/tv_userName"
+        android:id="@+id/header_userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="your username"

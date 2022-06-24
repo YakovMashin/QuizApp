@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".CategoryActivity"
-    android:background="@color/dark_blue">
+    android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
+    android:background="@color/dark_blue"
+    tools:openDrawer="start"
+    android:layout_gravity="start">
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu"
+        android:layout_gravity  = "start"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/dark_blue"
+        android:id="@+id/category_linear">
+
+
+        <androidx.appcompat.widget.Toolbar
+
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:elevation="4dp">-->
+
+       <!-- <Button
+            android:id="@+id/action_menu_presenter"
+            android:layout_width="30dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="start"
+            android:background="@drawable/ic_menu_icon"
+            android:elevation="4dp"/>-->
+
+       </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,7 +66,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginStart="130dp"
-        android:layout_marginTop="20dp"/>
+        />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -117,4 +167,10 @@
 
     </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

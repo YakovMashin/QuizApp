@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/ic_email.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/ic_main_bg.xml" value="0.13958333333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/ic_menu_icon.xml" value="0.2128205128205128" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/main_btn.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/playbutton.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/round_back_green20.xml" value="0.10989583333333333" />
@@ -34,9 +36,12 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fire_dialog.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fragment_first.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fragment_second.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fragment_user.xml" value="0.18" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/nav_header.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/pass_100_dialog.xml" value="0.1234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/timer_dialog.xml" value="0.14719202898550723" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/wrong_dialog.xml" value="0.14719202898550723" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/menu/drawer_menu.xml" value="0.2" />
       </map>
     </option>
   </component>

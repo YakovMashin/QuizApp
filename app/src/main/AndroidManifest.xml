@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".UserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
@@ -37,7 +40,7 @@
         <activity android:name=".Settings" />
         <activity
             android:name=".SplashScreen"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".SignUp"
             android:exported="true">
