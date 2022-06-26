@@ -1,5 +1,8 @@
 package com.dinocodeacademy.com;
 
+import static com.dinocodeacademy.com.Settings.PREFERRENCE_SOUND_ON;
+import static com.dinocodeacademy.com.Settings.SOUND_STATE;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -361,7 +364,9 @@ public class QuizActivity extends AppCompatActivity {
             wrongAns ++;
         }
 
-        if(settings.getSoundState().equals(settings.PREFERRENCE_SOUND_ON))
+        SharedPreferences pref_sound = getSharedPreferences(SOUND_STATE, MODE_PRIVATE);
+    String sound = pref_sound.getString(SOUND_STATE, PREFERRENCE_SOUND_ON);
+    if(sound.equals(PREFERRENCE_SOUND_ON))
             playAudioForAnswers.setAudioforAnswer(FLAG);
 
 
@@ -533,8 +538,7 @@ public class QuizActivity extends AppCompatActivity {
     }
     private void loadPreferences() {
 
-        SharedPreferences sharedPreferences = getSharedPreferences(settings.PREFERRENCE, MODE_PRIVATE);
-        String sound = sharedPreferences.getString(settings.SOUND_STATE,settings.PREFERRENCE_SOUND_ON);
-        settings.setSoundState(sound);
+        SharedPreferences sharedPreferences = getSharedPreferences(SOUND_STATE, MODE_PRIVATE);
+        String sound = sharedPreferences.getString(SOUND_STATE, PREFERRENCE_SOUND_ON);
     }
 }

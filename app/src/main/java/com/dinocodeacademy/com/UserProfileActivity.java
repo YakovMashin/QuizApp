@@ -74,15 +74,16 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String fullname = "" + ds.child("fullName").getValue();
-                    String username = "" + ds.child("userName").getValue();
-                    String email = "" + ds.child("email").getValue();
+                    //if() {
+                        String fullname = "" + ds.child("fullName").getValue().toString().trim();
+                        String username = "" + ds.child("userName").getValue().toString().trim();
+                        String email = "" + ds.child("email").getValue().toString().trim();
 
-                    //set data
-                    et_FullName.setText(fullname);
-                    et_UserName.setText(username);
-                    et_Email.setText(email);
-
+                        //set data
+                        et_FullName.setText(fullname);
+                        et_UserName.setText(username);
+                        et_Email.setText(email);
+                    //}
                 }
             }
 

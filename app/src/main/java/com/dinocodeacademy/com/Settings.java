@@ -23,10 +23,14 @@ public class Settings extends AppCompatActivity {
 
 
     private String soundState;
+    private  boolean toggleState;
 
-    public static final String PREFERRENCE = "shared_prefrence";
-    //public static final boolean TOGGLE_STATE = false;
-    public static final String SOUND_STATE = "sound state";
+
+    public static final String TOGGLE_STATE = "toggle state";// name
+    public static final boolean PREFERENCE_TOGGLE_CHECKED = true;
+    public static final boolean PREFRENCE_TOGGLE_UNCHECKED = false;
+
+    public static final String SOUND_STATE = "sound state"; // name
     public static final String PREFERRENCE_SOUND_ON = "sound_on";
     public static final String PREFERENCE_SOUND_OFF = "sound_of";
 
@@ -45,37 +49,55 @@ public class Settings extends AppCompatActivity {
 
         switchButton = findViewById(R.id.switchButton);
         imageViewOn = findViewById(R.id.sound_on);
+
         loadSound();
         switchButton.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
-                soundState = PREFERRENCE_SOUND_ON;
+                soundState = PREFERENCE_SOUND_OFF;
+                toggleState = PREFERENCE_TOGGLE_CHECKED;
+                updateSoundState(soundState,toggleState);
+                imageViewOn.setImageResource(R.drawable.sound_off);
+
 
             }
             else{
-                updateSoundState(soundState);
-                soundState = PREFERENCE_SOUND_OFF;
+                soundState = PREFERRENCE_SOUND_ON;
+                toggleState = PREFRENCE_TOGGLE_UNCHECKED;
+                updateSoundState(soundState, toggleState);
                 imageViewOn.setImageResource(R.drawable.sound_on);
+
             }
         });
     }
 
-    private void updateSoundState(String soundState) {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFERRENCE,MODE_PRIVATE);
+
+
+    private void updateSoundState(String soundState,
+     boolean toggleState) {
+SharedPreferences sharedPreferences = getSharedPreferences(SOUND_STATE,MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(PREFERRENCE_SOUND_ON,soundState);
+        editor.putString(SOUND_STATE,soundState);
+        editor.apply();
+        SharedPreferences toggle = getSharedPreferences(TOGGLE_STATE,MODE_PRIVATE);
+        editor = toggle.edit();
+        editor.putBoolean(TOGGLE_STATE, toggleState);
         editor.apply();
     }
 
     private void loadSound() {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFERRENCE,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SOUND_STATE,MODE_PRIVATE);
         sharedPreferences.getString(SOUND_STATE, PREFERRENCE_SOUND_ON);
+        SharedPreferences toggle = getSharedPreferences(TOGGLE_STATE,MODE_PRIVATE);
+        switchButton.setChecked(toggle.getBoolean(TOGGLE_STATE, false));
+        if(switchButton.isChecked()){
+            imageViewOn.setImageResource(R.drawable.sound_off);
+        }
+        else
+            imageViewOn.setImageResource(R.drawable.sound_on);
     }
 
     public void onBackPressed() {
-
-            Intent intent = new Intent(Settings.this,PlayActivity.class);
+            Intent intent = new Intent(Settings.this,CategoryActivity.class);
             startActivity(intent);
-
-
     }
 }
