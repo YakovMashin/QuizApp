@@ -85,11 +85,16 @@ public class LoginActivity extends SignUp implements View.OnClickListener{
                     Intent i = new Intent(LoginActivity.this, SplashScreen.class);
                     startActivity(i);
                 }
+                else{
+                    Toast.makeText(LoginActivity.this,
+                            "check you inbox for mail verification",
+                            Toast.LENGTH_LONG).show();
+                    mAuth.getCurrentUser().sendEmailVerification();
+                }
             }
-            else{
-                Toast.makeText(LoginActivity.this,
-                        "Failed to log in, please check your data",
-                        Toast.LENGTH_LONG).show();
+            else{  Toast.makeText(LoginActivity.this,
+                    "something went wrong, please check your credentials",
+                    Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
             }
         });

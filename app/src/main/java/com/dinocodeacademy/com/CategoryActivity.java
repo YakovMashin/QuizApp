@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -25,11 +24,9 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
     private Toolbar toolbar;
     private NavigationView navigationView;
     LinearLayout linearLayout;
-    static final float END_SCALE = 0.7f;
+    public static final float END_SCALE = 0.7f;
     private LevelsDialog levelsDialog;
 
-    private FirebaseAuth firebaseAuth;
-    private TextView yourEmail, yourUserName;
 
 
     @Override
@@ -37,8 +34,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        yourEmail = findViewById(R.id.header_email);
-        yourUserName = findViewById(R.id.header_userName);
 
         btHistory = findViewById(R.id.bt_hist_start);
         btProg = findViewById(R.id.bt_prog_start);
@@ -52,8 +47,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         linearLayout = findViewById(R.id.category_linear);
 
         levelsDialog = new LevelsDialog(this);
-
-        //navToggler_btn = findViewById(R.id.action_menu_presenter);
 
         toolbar  = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -122,33 +115,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         return true;
     }
     private void navigationDrawer() {
-        /*firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
-
-        assert user != null;
-        Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String username = "" + ds.child("userName").getValue();
-                    String email = "" + ds.child("email").getValue();
-
-                    //set data
-                    yourEmail.setText(email);
-                    yourUserName.setText(username);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);

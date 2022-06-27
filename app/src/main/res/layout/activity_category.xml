@@ -40,16 +40,6 @@
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:elevation="4dp">-->
 
-       <!-- <Button
-            android:id="@+id/action_menu_presenter"
-            android:layout_width="30dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="start"
-            android:background="@drawable/ic_menu_icon"
-            android:elevation="4dp"/>-->
-
        </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout

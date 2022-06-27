@@ -2,6 +2,7 @@ package com.dinocodeacademy.com;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -9,9 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -25,17 +30,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class UserProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     static final float END_SCALE = 0.7f;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    Button navToggler_btn, back_btn, bt_changePassword;
+    private Toolbar toolbar;
+    Button back_btn,bt_apply_changes;
+    TextView  tv_changePassword;
     LinearLayout linearLayout;
     EditText et_Email, et_UserName, et_FullName;
+
     FirebaseAuth firebaseAuth;
-    private TextView yourEmail, yourUserName;
+    private String fullname, username, email;
+    private long pressedTime;
+    FirebaseUser user;
 
 
 
@@ -51,33 +63,41 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         //Menu Hooks
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        navToggler_btn = findViewById(R.id.action_menu_presenter);
         linearLayout = findViewById(R.id.main_content);
         et_Email = findViewById(R.id.EMail);
         et_UserName = findViewById(R.id.USername);
         et_FullName = findViewById(R.id.fullName);
         back_btn = findViewById(R.id.prof_back_btn);
-        bt_changePassword = findViewById(R.id.bt_change_password);
+        tv_changePassword = findViewById(R.id.tv_change_password);
+        bt_apply_changes = findViewById(R.id.bt_apply_changes);
 
-        yourEmail = findViewById(R.id.header_email);
-        yourUserName = findViewById(R.id.header_userName);
+        toolbar  = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
 
         //Init Firebase
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        user = firebaseAuth.getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
 
-        assert user != null;
+      // assert user != null;
         Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     //if() {
-                        String fullname = "" + ds.child("fullName").getValue().toString().trim();
-                        String username = "" + ds.child("userName").getValue().toString().trim();
-                        String email = "" + ds.child("email").getValue().toString().trim();
+                         fullname = "" + Objects.requireNonNull(ds.child("fullName").getValue()).toString().trim();
+                         username = "" + Objects.requireNonNull(ds.child("userName").getValue()).toString().trim();
+                         email = "" + Objects.requireNonNull(ds.child("email").getValue()).toString().trim();
+
+
 
                         //set data
                         et_FullName.setText(fullname);
@@ -102,15 +122,89 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             startActivity(intent);
         });
 
-        bt_changePassword.setOnClickListener(v -> {
-            firebaseAuth.signOut();
-            startActivity(new Intent(this,ForgotPassword.class));
-            finishAffinity();
-            finish();
+        tv_changePassword.setOnClickListener(v -> {
+            if (pressedTime + 2000 > System.currentTimeMillis()) {
+
+                new AlertDialog.Builder(this)
+                        .setTitle("You will be signed out and redirected")
+                        .setNegativeButton("No", null)
+                        .setPositiveButton("Yes", (dialog, which) -> {
+
+                            setResult(RESULT_OK, new Intent().putExtra("Exit", true));
+                            //Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
+                            firebaseAuth.signOut();
+                            startActivity(new Intent(this, ForgotPassword.class));
+
+                        }).create().show();
+            }else  {
+                Toast.makeText(this, "Press Again to change password", Toast.LENGTH_SHORT).show();
+            }
+            pressedTime = System.currentTimeMillis();
 
         });
+        bt_apply_changes.setOnClickListener(v -> {
+            String Email =et_Email.getText().toString().trim();// eliminate extra spaces
+            String userName =et_UserName.getText().toString().trim();
+            String fullName =et_FullName.getText().toString().trim();
+
+            if(fullName.isEmpty()){
+                et_FullName.setError("Please enter your name");
+                et_FullName.requestFocus();
+                return;
+            }
+
+            if(userName.isEmpty()){
+                et_UserName.setError("Please enter a username");
+                et_UserName.requestFocus();
+                return;
+            }
+            if(email.isEmpty()){
+                et_Email.setError("Please enter your email");
+                et_Email.requestFocus();
+                return;
+            }
+            if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                et_Email.setError("Please provide a valid email");
+                et_Email.requestFocus();
+            }
+            if(!emailChanged() && !userNameChanged() && !nameChanged())
+                Toast.makeText(UserProfileActivity.this, "The data is the same", Toast.LENGTH_LONG).show();
+
+            else {
+                if (userNameChanged()) {
+                    databaseReference.child(user.getUid()).child("userName").setValue(userName);
+                    Toast.makeText(UserProfileActivity.this, "your username has been updated", Toast.LENGTH_LONG).show();
+                }
+                if (nameChanged()) {
+                    databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
+                    Toast.makeText(UserProfileActivity.this, "your name has been updated", Toast.LENGTH_LONG).show();
+                }
+                if (emailChanged()) {
+                    databaseReference.child(user.getUid()).child("email").setValue(Email);
+                    Toast.makeText(UserProfileActivity.this, "please confirm new email and Login", Toast.LENGTH_LONG).show();
+                    firebaseAuth.signOut();
+                    startActivity(new Intent(this, LoginActivity.class));
+                }
+            }
+        });
+
 
     }
+
+    private boolean userNameChanged() {
+        return !username.equals(et_UserName.getText().toString().trim());
+
+    }
+
+    private boolean emailChanged() {
+        return !email.equals(et_Email.getText().toString().trim());
+
+    }
+
+    private boolean nameChanged(){
+        return !fullname.equals(et_FullName.getText().toString().trim());
+    }
+
     private void navigationDrawer() {
 
         //Navigation Drawer
@@ -119,7 +213,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_profile);
 
-        navToggler_btn.setOnClickListener(v -> {
+        toolbar.setOnClickListener(v -> {
 
             if (drawerLayout.isDrawerVisible(GravityCompat.START))
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -131,7 +225,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     }
 
     ////////////////////////////////////////////////////////////ANIMATE NAV DRAWER////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void animateNavigationDrawer() {
+    public void animateNavigationDrawer() {
         drawerLayout.setScrimColor(getResources().getColor(R.color.cat_heading));
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
