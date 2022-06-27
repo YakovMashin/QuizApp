@@ -10,5 +10,6 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
+        // all the text is displayed in Layout. This activity created purely for navigation
     }
 }

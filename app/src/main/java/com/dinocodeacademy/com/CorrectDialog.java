@@ -54,6 +54,4 @@ public class CorrectDialog   {
         TextView textViewScore = correctDialog.findViewById(R.id.text_score);
         textViewScore.setText("Score: " + score);
     }
-
-
 }

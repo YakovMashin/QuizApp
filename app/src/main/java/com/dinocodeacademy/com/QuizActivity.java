@@ -59,11 +59,9 @@ public class QuizActivity extends AppCompatActivity {
     private CorrectDialog correctDialog;
     private WrongDialog wrongDialog;
     private OnFireDialog fireDialog;
-    private  Settings settings;
-
     private PlayAudioForAnswers playAudioForAnswers;
 
-    private static final long COUNTDOWN_IN_MILLIS = 30000;
+    private static int COUNTDOWN_IN_MILLIS = 30000;
     private CountDownTimer countDownTimer;
     private long timeleftinMillis;
     private long backPressedTime;
@@ -76,6 +74,8 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // init countdown time to settings time
         setContentView(R.layout.activity_quiz);
         setupUI();
 
@@ -86,10 +86,8 @@ public class QuizActivity extends AppCompatActivity {
         levelValue = intentCategoryLevel.getIntExtra("Level",0);
         categoryValue = intentCategoryLevel.getStringExtra("Category");
 
-
         fetchDB();
         Log.i("BUGBUG","onCreate() in QuizActivity");
-
 
         timerDialog = new TimerDialog(this);
         correctDialog = new CorrectDialog(this);
@@ -117,7 +115,7 @@ public class QuizActivity extends AppCompatActivity {
         buttonConfirmNext = findViewById(R.id.button);
 
         BackBtn = findViewById(R.id.backBtn);
-        settings = new Settings(this);
+
     }
 
     public void fetchDB() {
@@ -126,7 +124,6 @@ public class QuizActivity extends AppCompatActivity {
         startQuiz();
      
     }
-    
 
      public void startQuiz() {
 
@@ -484,7 +481,7 @@ public class QuizActivity extends AppCompatActivity {
             resultData.putExtra("TotalQuestion",questionTotalCount);
             resultData.putExtra("CorrectQues",correctAns);
             resultData.putExtra("WrongQues",wrongAns);
-            resultData.putExtra("Category", categoryValue.toString());
+            resultData.putExtra("Category", categoryValue);
             resultData.putExtra("Level", levelValue);
             startActivity(resultData);
         }

@@ -34,13 +34,8 @@ public class PlayAudioForAnswers {
     private void playMusic(int audiofile) { // play the audio file
 
         mediaPlayer = MediaPlayer.create(mContext,audiofile);
-
         mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
-
         mediaPlayer.setOnCompletionListener(mp -> mediaPlayer.release());
 
-
-
     }
-
 }

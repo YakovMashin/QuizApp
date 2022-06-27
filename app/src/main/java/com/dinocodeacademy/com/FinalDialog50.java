@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 public class FinalDialog50 extends FinalDialog100{
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

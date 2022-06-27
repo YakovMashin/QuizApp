@@ -39,12 +39,12 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     NavigationView navigationView;
     private Toolbar toolbar;
     Button back_btn,bt_apply_changes;
-    TextView  tv_changePassword;
+    TextView  tv_changePassword, tv_email;
     LinearLayout linearLayout;
     EditText et_UserName, et_FullName;
 
     FirebaseAuth firebaseAuth;
-    private String fullname, username;
+    private String fullname, username, email;
     private long pressedTime;
     FirebaseUser user;
 
@@ -61,6 +61,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         linearLayout = findViewById(R.id.main_content);
         et_UserName = findViewById(R.id.USername);
         et_FullName = findViewById(R.id.fullName);
+        tv_email = findViewById(R.id.tv_EMail);
         back_btn = findViewById(R.id.prof_back_btn);
         tv_changePassword = findViewById(R.id.tv_change_password);
         bt_apply_changes = findViewById(R.id.bt_apply_changes);
@@ -81,7 +82,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         user = firebaseAuth.getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
 
-      // assert user != null;
         Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -90,10 +90,12 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                     // set text with user's data
                          fullname = "" + Objects.requireNonNull(ds.child("fullName").getValue()).toString().trim();
                          username = "" + Objects.requireNonNull(ds.child("userName").getValue()).toString().trim();
+                         email = "" + Objects.requireNonNull(ds.child("email").getValue()).toString().trim();
 
                         //set data
                         et_FullName.setText(fullname);
                         et_UserName.setText(username);
+                        tv_email.setText(email);
                 }
             }
 
@@ -252,6 +254,10 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
             super.onBackPressed();
         }
+        else if(menuItem.getItemId() == R.id.nav_about){
+            startActivity(new Intent(this,AboutActivity.class));
+        }
+
         return true;
     }
 

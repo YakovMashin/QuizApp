@@ -18,17 +18,12 @@ public class LoginActivity extends SignUp implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         et_Email = findViewById(R.id.log_email);
         et_Password = findViewById(R.id.log_password);
         TextView forgot = findViewById(R.id.forgot_tv);
-
         Button login = findViewById(R.id.go_btn);
-
         mAuth = FirebaseAuth.getInstance();
-
         progressBar = findViewById(R.id.progress);
-
         forgot.setOnClickListener(this);
         login.setOnClickListener(this);
     }

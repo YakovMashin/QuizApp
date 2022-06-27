@@ -21,10 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PlayActivity extends AppCompatActivity {
 
-
     private long backPressedTime; // used to detect if the user pressed more than once in a certain time span
     private FirebaseUser user;
-
     private String userID;
 
     @Override
@@ -34,7 +32,6 @@ public class PlayActivity extends AppCompatActivity {
 
         TextView helloUser = findViewById(R.id.user_tv);
 
-
         Button btPlay = findViewById(R.id.bt_playbutton);
 
         btPlay.setOnClickListener(v -> {
@@ -43,6 +40,7 @@ public class PlayActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
+        // get current user data from database
         user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         userID = user.getUid();
@@ -73,13 +71,13 @@ public class PlayActivity extends AppCompatActivity {
 
         if (backPressedTime + 2000 > System.currentTimeMillis()) { // if the user presses to time in two seconds span than show alert dialog
 
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this) // show alert dialog
                     .setTitle("Do you  want to exit?")
                     .setNegativeButton("No", null)
                     .setPositiveButton("Yes", (dialog, which) -> {
 
                         setResult(RESULT_OK, new Intent().putExtra("Exit", true));
-                        System.exit(0);
+                        System.exit(0); // exit the game
                     }).create().show();
 
         }else  {
@@ -94,7 +92,5 @@ public class PlayActivity extends AppCompatActivity {
         super.onStop();
         Log.i("BUGBUG","onStop() in PlayActivity");
         finish();
-
-
     }
 }

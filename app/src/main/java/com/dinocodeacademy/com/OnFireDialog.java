@@ -37,6 +37,5 @@ public class OnFireDialog extends AppCompatActivity {
         fireDialog.setCanceledOnTouchOutside(false);
         Objects.requireNonNull(fireDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
-
 }
 

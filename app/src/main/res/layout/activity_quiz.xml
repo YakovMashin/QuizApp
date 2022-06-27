@@ -85,7 +85,7 @@
             android:gravity="center"
             android:layout_height="100dp"
             android:text="Question will be here"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:padding="20dp"
             android:textColor="@color/black"
