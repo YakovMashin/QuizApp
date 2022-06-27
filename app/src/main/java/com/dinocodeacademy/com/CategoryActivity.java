@@ -105,12 +105,13 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
 
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finishAffinity();
-            finish();
             super.onBackPressed();
         }
         else if(item.getItemId() == R.id.nav_profile){
             startActivity(new Intent(CategoryActivity.this, UserProfileActivity.class));
+        }
+        else if(item.getItemId() == R.id.nav_about){
+            startActivity(new Intent(this,AboutActivity.class));
         }
         return true;
     }
@@ -120,8 +121,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         navigationView.setCheckedItem(R.id.nav_home);
 
         toolbar.setOnClickListener(v -> {
-
-
             if (drawer.isDrawerVisible(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {drawer.openDrawer(GravityCompat.START);}

@@ -22,9 +22,9 @@
 
     <item android:title="Actions">
         <menu >
-            <item android:id="@+id/nav_sound"
-                android:icon="@drawable/ic_baseline_music_note_24"
-                android:title="Sound"/>
+            <item android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about"
+                android:title="About us"/>
             <item android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout"
                 android:title="Logout"/>
