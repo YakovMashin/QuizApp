@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,24 +20,18 @@ public class CorrectDialog   {
         this.mContext = mContext;
     }
 
-    public void correctDialog(int score, final QuizActivity quizActivity, int streakCounter, final OnFireDialog onFire){
+    public void correctDialog(int score, final QuizActivity quizActivity, int streakCounter, final OnFireDialog onFire, int questionCounter, int size){
 
+        // init new dialog
         correctDialog = new Dialog(mContext);
         correctDialog.setContentView(R.layout.correct_dialog);
-        Objects.requireNonNull(correctDialog.getWindow()).getAttributes().windowAnimations = R.style.DialogAnimation;
+        correctDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
-        Button btCorrectDialog = (Button) correctDialog.findViewById(R.id.bt_correct_dialog);
-
+        Button btCorrectDialog = correctDialog.findViewById(R.id.bt_correct_dialog);
         score(score);
-
-
-
-        btCorrectDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                correctDialog.dismiss();
-                quizActivity.showQuestions();
-            }
+        btCorrectDialog.setOnClickListener(v -> {
+            correctDialog.dismiss();
+            quizActivity.showQuestions(); // go back to quiz and show questions
         });
 
         correctDialog.show();
@@ -47,20 +40,18 @@ public class CorrectDialog   {
 
         Objects.requireNonNull(correctDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        if(streakCounter %5 ==0 && streakCounter !=0){
-            correctDialog.dismiss();
-            onFire.onFireDialog(correctDialog, quizActivity);
-            quizActivity.multiplier = 2;
-        }
+        if(streakCounter %5 ==0 && streakCounter !=0 && questionCounter != size){ // show streak dialog if there is a streak
 
+            correctDialog.dismiss();
+            onFire.onFireDialog(correctDialog, quizActivity);// show the dialog in quiz activity instead of correct dialog
+            quizActivity.multiplier = 2; // introduce double points
+        }
     }
 
     @SuppressLint("SetTextI18n")
-    private void score(int score) {
+    private void score(int score) { // calculate the score
 
-        TextView textViewScore = (TextView) correctDialog.findViewById(R.id.text_score);
+        TextView textViewScore = correctDialog.findViewById(R.id.text_score);
         textViewScore.setText("Score: " + score);
     }
-
-
 }

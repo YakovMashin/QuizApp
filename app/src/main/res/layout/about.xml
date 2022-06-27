@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About the project"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This Game was developed as 12'th grade project by Yakov Mashin in Amit Karmiel School, Israel."
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:layout_gravity="start"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The game is a quiz that for 28.08.2022 has three main categories : History, Programming and Technology. Each category
+consists of the levels that differ in difficulty: Beginner, Professional and World Class. After choosing the level you will be asked some questions on that matter and gain points if you answer correctly.
+After answering correctly five questions in a row you will be granted double points! Remember, there is a time limit and if the time is up, you lose! Enjoy the game!"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:layout_gravity="start"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:text="The source code can be viewed on GitHub: https://github.com/YakovMashin/QuizApp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/white"
+        android:layout_gravity="start"/>
+
+
+
+
+</LinearLayout>

@@ -9,7 +9,7 @@
     <LinearLayout
         android:background="@drawable/background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
         tools:ignore="UselessParent">
@@ -24,10 +24,19 @@
             android:src="@drawable/quiz_icon" />
 
         <TextView
+            android:id="@+id/user_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Hello "
+            android:textColor="@color/white"
+            android:textSize="28sp" />
+
+        <TextView
             android:id="@+id/sp_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="60dp"
             android:text="Welcome to the Yakov's Quiz!"
             android:textColor="@color/white"
             android:textSize="24sp" />
@@ -45,27 +54,18 @@
             android:id="@+id/bt_playbutton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="75dp"
             android:background="@drawable/go_gra_btn"
             android:text="START"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/bt_settings_button"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/go_gra_btn"
-            android:text="Settings"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/copyright"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="95dp"
             android:text="Written by YakovMashin, 2022"
             android:textColor="@color/white"
             android:textSize="24sp" />

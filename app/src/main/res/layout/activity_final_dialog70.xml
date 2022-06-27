@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="330dp"
-    android:layout_height="490dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
     tools:context=".FinalDialog70"
-    android:background="@color/white">
+    android:background="@drawable/background">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,20 +18,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="60dp"
-            android:src="@drawable/pass_bg"
+            android:src="@drawable/background"
             />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/congrat_img"
+            android:layout_marginTop="150dp"
             />
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="350dp"
             android:gravity="center"
             android:text="You Passed 70%!"
             android:textColor="@color/white"
@@ -41,11 +42,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="240dp"
+            android:layout_marginTop="420dp"
             android:gravity="center"
             android:text="Continue like that!"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +57,7 @@
                 android:id="@+id/back_to_menu_btn"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="150dp"
                 android:background="@drawable/main_btn"
                 android:text="Back to Menu"
                 android:textColor="@color/white" />
@@ -66,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="150dp"
                 android:layout_toRightOf="@+id/nl_btn"
                 android:background="@drawable/main_btn"
                 android:text="Show Details"

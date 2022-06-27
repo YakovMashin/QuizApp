@@ -1,66 +1,83 @@
 package com.dinocodeacademy.com;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class PlayActivity extends AppCompatActivity {
 
-
-    private long backPressedTime;
+    private long backPressedTime; // used to detect if the user pressed more than once in a certain time span
+    private FirebaseUser user;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
+        TextView helloUser = findViewById(R.id.user_tv);
+
         Button btPlay = findViewById(R.id.bt_playbutton);
-        Button settings = findViewById(R.id.bt_settings_button);
 
-        btPlay.setOnClickListener(new View.OnClickListener() {
+        btPlay.setOnClickListener(v -> {
+
+            Intent intent = new Intent(PlayActivity.this, CategoryActivity.class); // go to categories
+            startActivity(intent);
+
+        });
+        // get current user data from database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+        userID = user.getUid();
+
+        databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userName = snapshot.getValue(User.class);
 
-                Intent intent = new Intent(PlayActivity.this, CategoryActivity.class);
-                startActivity(intent);
+                if(userName !=null){
+                    String fullname = userName.fullName;
+
+                    helloUser.setText("Hey " + fullname);// retrieve user's name from the database and greet him
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PlayActivity.this, "Something went wrong :( ", Toast.LENGTH_LONG).show();
 
             }
         });
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PlayActivity.this, Settings.class );
-                startActivity(intent);
-
-            }
-        });
-
 
     }
-
 
     @Override
     public void onBackPressed() {
 
-        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) { // if the user presses to time in two seconds span than show alert dialog
 
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this) // show alert dialog
                     .setTitle("Do you  want to exit?")
                     .setNegativeButton("No", null)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    .setPositiveButton("Yes", (dialog, which) -> {
 
-                            setResult(RESULT_OK, new Intent().putExtra("Exit", true));
-                            finish();
-                        }
+                        setResult(RESULT_OK, new Intent().putExtra("Exit", true));
+                        System.exit(0); // exit the game
                     }).create().show();
 
         }else  {
@@ -75,6 +92,5 @@ public class PlayActivity extends AppCompatActivity {
         super.onStop();
         Log.i("BUGBUG","onStop() in PlayActivity");
         finish();
-
     }
 }

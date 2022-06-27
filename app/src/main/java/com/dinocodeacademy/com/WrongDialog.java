@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,21 +28,19 @@ public class WrongDialog {
     public void wrongDialog(String correctAnswer, final QuizActivity quizActivity){
         mquizActivity = quizActivity;
 
+        // init new dialog
         wrongDialog = new Dialog(mContext);
         wrongDialog.setContentView(R.layout.wrong_dialog);
         Objects.requireNonNull(wrongDialog.getWindow()).getAttributes().windowAnimations = R.style.DialogAnimation;
 
-        Button btWrongDialog = (Button) wrongDialog.findViewById(R.id.bt_wrong_dialog);
-        TextView textViewCorrectAnswer = (TextView) wrongDialog.findViewById(R.id.text_correct_ans);
+        Button btWrongDialog =  wrongDialog.findViewById(R.id.bt_wrong_dialog);
+        TextView textViewCorrectAnswer =  wrongDialog.findViewById(R.id.text_correct_ans);
 
-        textViewCorrectAnswer.setText("Correct Ans: " + correctAnswer);
+        textViewCorrectAnswer.setText("Correct Ans: " + correctAnswer); // get correct answer from the quiz and show it
 
-        btWrongDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wrongDialog.dismiss();
-                mquizActivity.showQuestions();
-            }
+        btWrongDialog.setOnClickListener(v -> {
+            wrongDialog.dismiss();
+            mquizActivity.showQuestions();
         });
 
         wrongDialog.show();

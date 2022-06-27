@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/ic_email.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/ic_main_bg.xml" value="0.13958333333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/ic_menu_icon.xml" value="0.2128205128205128" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/main_btn.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/playbutton.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/round_back_green20.xml" value="0.10989583333333333" />
@@ -13,15 +15,20 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/round_back_white_stroke2_10.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/switch_thumb.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/drawable/switch_track.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_category.xml" value="0.14719202898550723" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/about.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_about.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_category.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_dialog_final100.xml" value="0.1234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_final_100.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_final_dialog100.xml" value="0.1234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_final_dialog20.xml" value="0.14" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_final_dialog50.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_final_dialog70.xml" value="0.1234375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_forgot_password.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_levels.xml" value="0.1234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_login.xml" value="0.14719202898550723" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_play.xml" value="0.12" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_play.xml" value="0.14" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_quiz.xml" value="0.16" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_result.xml" value="0.1234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/activity_settings.xml" value="0.17" />
@@ -33,15 +40,18 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fire_dialog.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fragment_first.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fragment_second.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/fragment_user.xml" value="0.18" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/nav_header.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/pass_100_dialog.xml" value="0.1234375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/timer_dialog.xml" value="0.14719202898550723" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/layout/wrong_dialog.xml" value="0.14719202898550723" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Quizapp/app/src/main/res/menu/drawer_menu.xml" value="0.2" />
       </map>
     </option>
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
-    <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
+    <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
     <option name="myNullables">
       <value>
         <list size="14">

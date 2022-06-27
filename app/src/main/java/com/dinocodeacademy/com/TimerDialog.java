@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.View;
 import android.widget.Button;
 
 import java.util.Objects;
@@ -21,8 +20,8 @@ public class TimerDialog {
     }
     
     public void timerDialog(){
-        
-        
+
+        // init new dialog
         TimerDialog = new Dialog(mContext);
         TimerDialog.setContentView(R.layout.timer_dialog);
         Objects.requireNonNull(TimerDialog.getWindow()).getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -31,16 +30,13 @@ public class TimerDialog {
         
         
        
-        btTimer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btTimer.setOnClickListener(v -> {
 
-                TimerDialog.dismiss();
-                Intent intent = new Intent(mContext, PlayActivity.class);
-                mContext.startActivity(intent);
+            TimerDialog.dismiss();
+            Intent intent = new Intent(mContext, PlayActivity.class);
+            mContext.startActivity(intent);
 
 
-            }
         });
 
         TimerDialog.show();

@@ -1,15 +1,16 @@
 package com.dinocodeacademy.com;
 
+import static com.dinocodeacademy.com.Settings.PREFERRENCE_SOUND_ON;
+import static com.dinocodeacademy.com.Settings.SOUND_STATE;
+
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -26,9 +27,6 @@ import java.util.Locale;
 
 
 public class QuizActivity extends AppCompatActivity {
-
-    private Context mContext;
-    private MediaPlayer mediaPlayer;
 
     private RadioGroup rbGroup;
     private RadioButton rb1;
@@ -52,59 +50,55 @@ public class QuizActivity extends AppCompatActivity {
     public int multiplier =1;
     private int streakCounter =0;
     private Questions currentQuestions;
-    private boolean answered;
-
-    private final Handler handler = new Handler();
-
-    private int correctAns = 0, wrongAns = 0;
+    private int correctAns = 0;
+    private int wrongAns = 0;
+    int FLAG = 0;
+    int score =0;
 
     private TimerDialog timerDialog;
     private CorrectDialog correctDialog;
     private WrongDialog wrongDialog;
     private OnFireDialog fireDialog;
-
     private PlayAudioForAnswers playAudioForAnswers;
 
-    int FLAG = 0;
-    int score =0;
-
-
-    private static final long COUNTDOWN_IN_MILLIS = 30000;
+    private static int COUNTDOWN_IN_MILLIS = 30000;
     private CountDownTimer countDownTimer;
     private long timeleftinMillis;
-
     private long backPressedTime;
 
     private String categoryValue;
     private int levelValue;
 
+    private final Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // init countdown time to settings time
         setContentView(R.layout.activity_quiz);
         setupUI();
+
+        loadPreferences();
 
         Intent intentCategoryLevel = getIntent();
 
         levelValue = intentCategoryLevel.getIntExtra("Level",0);
         categoryValue = intentCategoryLevel.getStringExtra("Category");
 
-
         fetchDB();
         Log.i("BUGBUG","onCreate() in QuizActivity");
-
 
         timerDialog = new TimerDialog(this);
         correctDialog = new CorrectDialog(this);
         wrongDialog = new WrongDialog(this);
         fireDialog = new OnFireDialog(this);
         playAudioForAnswers = new PlayAudioForAnswers(this);
+
     }
 
 
-
     private void setupUI(){
-       // playMusic(R.raw.theme_music);
         textViewQuestion = findViewById(R.id.txtQuestionContainer);
         
         textViewScore = findViewById(R.id.txtScore);
@@ -130,7 +124,6 @@ public class QuizActivity extends AppCompatActivity {
         startQuiz();
      
     }
-    
 
      public void startQuiz() {
 
@@ -141,101 +134,88 @@ public class QuizActivity extends AppCompatActivity {
 
 
 
-         BackBtn.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 final Intent intent = new Intent(QuizActivity.this, CategoryActivity.class);
-                 startActivity(intent);
-             }
+         BackBtn.setOnClickListener(view -> {
+             final Intent intent = new Intent(QuizActivity.this, CategoryActivity.class);
+             startActivity(intent);
          });
-         rbGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-             @SuppressLint("NonConstantResourceId")
-             @Override
-             public void onCheckedChanged(RadioGroup group, int checkedId) {
+         rbGroup.setOnCheckedChangeListener((group, checkedId) -> {
 
 
 
-                 switch (checkedId){
+             switch (checkedId){
 
-                     case R.id.radio_button1:
+                 case R.id.radio_button1:
 
-                         rb1.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
-                         rb2.setTextColor(Color.BLACK);
-                         rb3.setTextColor(Color.BLACK);
-                         rb4.setTextColor(Color.BLACK);
+                     rb1.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
+                     rb2.setTextColor(Color.BLACK);
+                     rb3.setTextColor(Color.BLACK);
+                     rb4.setTextColor(Color.BLACK);
 
 
 
-                         rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
-                         rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
+                     rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+
+                 break;
+                 case R.id.radio_button2:
+                     rb2.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
+
+                     rb1.setTextColor(Color.BLACK);
+                     rb3.setTextColor(Color.BLACK);
+                     rb4.setTextColor(Color.BLACK);
+
+
+
+                     rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
+                     rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
 
                      break;
-                     case R.id.radio_button2:
-                         rb2.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
 
-                         rb1.setTextColor(Color.BLACK);
-                         rb3.setTextColor(Color.BLACK);
-                         rb4.setTextColor(Color.BLACK);
-
-
-
-                         rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
-                         rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-
-                         break;
-
-                     case R.id.radio_button3:
-                         rb3.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
-                         rb2.setTextColor(Color.BLACK);
-                         rb1.setTextColor(Color.BLACK);
-                         rb4.setTextColor(Color.BLACK);
+                 case R.id.radio_button3:
+                     rb3.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
+                     rb2.setTextColor(Color.BLACK);
+                     rb1.setTextColor(Color.BLACK);
+                     rb4.setTextColor(Color.BLACK);
 
 
-                         rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
-                         rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
+                     rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
 
-                         break;
+                     break;
 
-                     case R.id.radio_button4:
-                         rb4.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
-                         rb2.setTextColor(Color.BLACK);
-                         rb3.setTextColor(Color.BLACK);
-                         rb1.setTextColor(Color.BLACK);
+                 case R.id.radio_button4:
+                     rb4.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
+                     rb2.setTextColor(Color.BLACK);
+                     rb3.setTextColor(Color.BLACK);
+                     rb1.setTextColor(Color.BLACK);
 
 
 
-                         rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
-                         rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
-                         rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_answer_selected));
+                     rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
+                     rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.option_default_background));
 
-                         break;
-                 }
-
+                     break;
              }
+
          });
 
-         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+         buttonConfirmNext.setOnClickListener(v -> {
+                 if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()) {
 
-                if (!answered) {
-                    if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()) {
+                     quizOperation();
+                 } else {
 
-                        quizOperation();
-                    } else {
-
-                        Toast.makeText(QuizActivity.this, "Please Select the Answer ", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
+                     Toast.makeText(QuizActivity.this, "Please Select the Answer ", Toast.LENGTH_SHORT).show();
+                 }
+         });
 
     }
 
@@ -263,11 +243,8 @@ public class QuizActivity extends AppCompatActivity {
             rb2.setText(currentQuestions.getOption2());
             rb3.setText(currentQuestions.getOption3());
             rb4.setText(currentQuestions.getOption4());
-
             questionCounter++;
-            answered = false;
             buttonConfirmNext.setText("Confirm");
-
             textViewQuestionCount.setText("Questions: " + questionCounter + "/" + questionTotalCount);
 
 
@@ -287,19 +264,11 @@ public class QuizActivity extends AppCompatActivity {
             rb4.setClickable(false);
             buttonConfirmNext.setClickable(false);
 
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    showResultDialog(score);
-
-                }
-            }, 2000);
+            handler.postDelayed(() -> showResultDialog(score), 2000);
         }
     }
 
     private void quizOperation() {
-        answered = true;
 
         countDownTimer.cancel();
 
@@ -318,9 +287,7 @@ public class QuizActivity extends AppCompatActivity {
         switch (currentQuestions.getAnswerNr()) {
             case 1:
                 if (currentQuestions.getAnswerNr() == answerNr) {
-                    rb1.setBackground(ContextCompat.getDrawable(
-                            this, R.drawable.correct_option_background));
-                    rb1.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
                 } else {
@@ -334,8 +301,7 @@ public class QuizActivity extends AppCompatActivity {
             case 2:
                 if (currentQuestions.getAnswerNr() == answerNr) {
 
-                    rb2.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
-                    rb2.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
 
@@ -350,8 +316,7 @@ public class QuizActivity extends AppCompatActivity {
             case 3:
                 if (currentQuestions.getAnswerNr() == answerNr) {
 
-                    rb3.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
-                    rb3.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
 
@@ -369,11 +334,9 @@ public class QuizActivity extends AppCompatActivity {
             case 4:
                 if (currentQuestions.getAnswerNr() == answerNr) {
 
-                    rb4.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
-                    rb4.setTextColor(Color.BLACK);
+                    changeToCorrectColor(rbselected);
                     answeredRight = true;
                     streakCounter ++;
-
 
                 } else {
                     streakCounter =0;
@@ -381,7 +344,6 @@ public class QuizActivity extends AppCompatActivity {
                     changetoIncorrectColor(rbselected);
                     String correctAnswer = (String) rb4.getText();
                     wrongDialog.wrongDialog(correctAnswer,this);
-
 
                 }
                 break;
@@ -392,14 +354,19 @@ public class QuizActivity extends AppCompatActivity {
             correctAns++;
             score += 10 * multiplier;
             textViewScore.setText("Score: " + score);
-            correctDialog.correctDialog(score,this, streakCounter, fireDialog);
+            correctDialog.correctDialog(score,this, streakCounter, fireDialog, questionCounter, questionTotalCount);
         }
         else{
             FLAG = 2;
             wrongAns ++;
         }
 
-        playAudioForAnswers.setAudioforAnswer(FLAG);
+        SharedPreferences pref_sound = getSharedPreferences(SOUND_STATE, MODE_PRIVATE);
+    String sound = pref_sound.getString(SOUND_STATE, PREFERRENCE_SOUND_ON);
+    if(sound.equals(PREFERRENCE_SOUND_ON))
+            playAudioForAnswers.setAudioforAnswer(FLAG);
+
+
         if (questionCounter == questionTotalCount) {
             buttonConfirmNext.setText("Confirm and Finish");
         }
@@ -408,6 +375,10 @@ public class QuizActivity extends AppCompatActivity {
     void changetoIncorrectColor(RadioButton rbselected) {
         rbselected.setBackground(ContextCompat.getDrawable(this, R.drawable.wrong_answer_background));
 
+        rbselected.setTextColor(Color.BLACK);
+    }
+    void changeToCorrectColor(RadioButton rbselected){
+        rbselected.setBackground(ContextCompat.getDrawable(this, R.drawable.correct_option_background));
         rbselected.setTextColor(Color.BLACK);
     }
 
@@ -430,56 +401,29 @@ public class QuizActivity extends AppCompatActivity {
 
                 timeleftinMillis = 0;
                 updateCountDownText();
-
             }
         }.start();
-
     }
-
-
 
     private void updateCountDownText(){
 
      int minutes = (int) (timeleftinMillis/1000) /60;
      int seconds = (int) (timeleftinMillis/1000) % 60;
 
-      //  String timeFormatted = String.format(Locale.getDefault(),"02d:%02d",minutes,seconds);
-
-        String timeFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes, seconds);
+        String timeFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes, seconds);// time format
         textViewCountDown.setText(timeFormatted);
 
-
-     if (timeleftinMillis < 10000){
-         
-         
-         textViewCountDown.setTextColor(ContextCompat.getColor(this,R.color.red));
-         
+     if (timeleftinMillis < 10000){ // if less than 10 seconds left
+         textViewCountDown.setTextColor(ContextCompat.getColor(this,R.color.red));// change color to red
          FLAG = 3;
-         playAudioForAnswers.setAudioforAnswer(FLAG);
-         
-         
+         playAudioForAnswers.setAudioforAnswer(FLAG); // play ticking sound
+
      }else {
          textViewCountDown.setTextColor(ContextCompat.getColor(this,R.color.black));
      }
-
-
-     if (timeleftinMillis == 0 ){
-
-
+     if (timeleftinMillis == 0 ){// time is up
          Toast.makeText(this, "Times Up!", Toast.LENGTH_SHORT).show();
-
-
-         handler.postDelayed(new Runnable() {
-             @Override
-             public void run() {
-
-                timerDialog.timerDialog();
-
-             }
-         },2000);
-
-
-
+         handler.postDelayed(() -> timerDialog.timerDialog(),2000);
      }
     }
 
@@ -531,7 +475,6 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void showResultDialog(int score){
-        //mediaPlayer.stop();
         if(correctAns == questionList.size()){
             Intent resultData = new Intent(QuizActivity.this, FinalDialog100.class);
             resultData.putExtra("UserScore",score);
@@ -541,7 +484,6 @@ public class QuizActivity extends AppCompatActivity {
             resultData.putExtra("Category", categoryValue);
             resultData.putExtra("Level", levelValue);
             startActivity(resultData);
-
         }
         else if (correctAns >= questionList.size()*0.7){
             Intent resultData = new Intent(QuizActivity.this, FinalDialog70.class);
@@ -576,11 +518,13 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()){
 
-            Intent intent = new Intent(QuizActivity.this,PlayActivity.class);
+            Intent intent = new Intent(QuizActivity.this,CategoryActivity.class);
             startActivity(intent);
 
         }else {
@@ -589,23 +533,9 @@ public class QuizActivity extends AppCompatActivity {
         }
         backPressedTime = System.currentTimeMillis();
     }
-    private void playMusic(int audiofile) {
+    private void loadPreferences() {
 
-        mediaPlayer = MediaPlayer.create(mContext,audiofile);
-
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mediaPlayer.start();
-            }
-        });
-
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mediaPlayer.release();
-            }
-        });
-
+        SharedPreferences sharedPreferences = getSharedPreferences(SOUND_STATE, MODE_PRIVATE);
+        String sound = sharedPreferences.getString(SOUND_STATE, PREFERRENCE_SOUND_ON);
     }
 }
