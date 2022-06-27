@@ -1,9 +1,10 @@
 package com.dinocodeacademy.com;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,18 +14,15 @@ public class Settings extends AppCompatActivity {
 
     SwitchCompat switchButton;
     ImageView imageViewOn;
-    private Context mContext;
-
-    public Settings(){}
-
-    public Settings(Context mContext) {
-        this.mContext = mContext;
-    }
-
-
+    EditText et_timerTime;
+    Button applyChanges;
     private String soundState;
     private  boolean toggleState;
 
+
+    // save timer time
+    public static final String TIMER_STATE = "timer state"; // name
+    public static int  TIMER_TIME;
 
     // save toggle button state
     public static final String TOGGLE_STATE = "toggle state";// name
@@ -51,8 +49,11 @@ public class Settings extends AppCompatActivity {
 
         switchButton = findViewById(R.id.switchButton);
         imageViewOn = findViewById(R.id.sound_on);
+        et_timerTime = findViewById(R.id.timerTime);
+        applyChanges = findViewById(R.id.bt_apply_changes);
 
         loadSound(); // load current sound
+        loadTimerTime();
 
         switchButton.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
@@ -71,13 +72,29 @@ public class Settings extends AppCompatActivity {
 
             }
         });
+
+        applyChanges.setOnClickListener(v -> {
+            updateTimer();
+
+        });
     }
 
+    private void updateTimer() {
+        int mt = Integer.parseInt(et_timerTime.getText().toString().trim());
+        TIMER_TIME = mt;
+        SharedPreferences updateTimer = getSharedPreferences(TIMER_STATE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = updateTimer.edit();
+        editor.putInt(TIMER_STATE, TIMER_TIME);
 
+    }
 
+    private void loadTimerTime() {
+        SharedPreferences timerPrefs = getSharedPreferences(TIMER_STATE, MODE_PRIVATE);
+        et_timerTime.setText(timerPrefs.getInt(TIMER_STATE,30000));
+    }
     private void updateSoundState(String soundState,
-     boolean toggleState) {
-SharedPreferences sharedPreferences = getSharedPreferences(SOUND_STATE,MODE_PRIVATE);
+                                  boolean toggleState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SOUND_STATE,MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(SOUND_STATE,soundState);
         editor.apply();
@@ -100,6 +117,10 @@ SharedPreferences sharedPreferences = getSharedPreferences(SOUND_STATE,MODE_PRIV
         else
             imageViewOn.setImageResource(R.drawable.sound_on);
     }
+
+
+
+
 
     public void onBackPressed() {
             Intent intent = new Intent(Settings.this,CategoryActivity.class);
