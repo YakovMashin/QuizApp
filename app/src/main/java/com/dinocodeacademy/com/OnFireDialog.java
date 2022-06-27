@@ -21,6 +21,7 @@ public class OnFireDialog extends AppCompatActivity {
 
     public void onFireDialog(final Dialog correctDialog, final QuizActivity quizActivity){
 
+        // init new dialog
         fireDialog = new Dialog(mContext);
         fireDialog.setContentView(R.layout.fire_dialog);
         Objects.requireNonNull(fireDialog.getWindow()).getAttributes().windowAnimations = R.style.DialogAnimation;

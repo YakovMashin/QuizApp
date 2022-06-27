@@ -34,7 +34,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progress);
-        if(mAuth.getCurrentUser()!= null){
+        if(mAuth.getCurrentUser()!= null){ // if user already loggen in skip the activity
             startActivity(new Intent(SignUp.this, SplashScreen.class));
         }
 
@@ -65,6 +65,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
     }
     private void registerUser(){
+        // get user's text from the edit text boxes and validate it
         String email =et_Email.getText().toString().trim();
         String password =et_Password.getText().toString().trim();
         String userName =et_UserName.getText().toString().trim();
@@ -100,10 +101,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             et_Email.requestFocus();
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE); // show progress bar
+
+        // create new  user with the data
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 
-            if (task.isSuccessful()) {
+            if (task.isSuccessful()) { // created
 
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 assert currentUser != null;
@@ -112,14 +115,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
                 User user = new User(fullName,userName,Email);
 
-                databaseReference.child(uid).setValue(user);
+                databaseReference.child(uid).setValue(user); // save user's data int the database
+
+                // send email verification to new account
                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
 
                     if (task1.isSuccessful()) {
 
                         Toast.makeText(SignUp.this, "verification email sent to " + email, Toast.LENGTH_LONG).show();
                         Intent emailVerify = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(emailVerify);
+                        startActivity(emailVerify); // go to login after email verification
 
                     } else {
                         Toast.makeText(SignUp.this, "Check Internet Connection" + Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_LONG).show();

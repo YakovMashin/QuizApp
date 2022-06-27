@@ -32,6 +32,7 @@ public class ForgotPassword extends LoginActivity {
     }
 
     protected void resetPassword() {
+        //validation
         String email = et_Email.getText().toString().trim();
         if(email.isEmpty()){
             et_Email.setError("Please enter your email");
@@ -43,7 +44,7 @@ public class ForgotPassword extends LoginActivity {
             et_Email.requestFocus();
         }
         progressBar.setVisibility(View.VISIBLE);
-        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> { // send the reset to users email
             if(task.isSuccessful()){
                 Toast.makeText(ForgotPassword.this,
                         "Check your email to reset your password",

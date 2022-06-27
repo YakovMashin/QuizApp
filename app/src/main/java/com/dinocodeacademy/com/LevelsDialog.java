@@ -21,6 +21,7 @@ public class LevelsDialog {
 
     public void LevelsDialog(String category){
 
+        // init new dialog
         levelsDialog = new Dialog(mContext);
         levelsDialog.setContentView(R.layout.activity_levels);
         levelsDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -29,6 +30,7 @@ public class LevelsDialog {
         Button level2 = levelsDialog.findViewById(R.id.professional);
         Button level3 = levelsDialog.findViewById(R.id.world_class);
 
+        // pass the category and level to QuizActivity
         level1.setOnClickListener(v -> {
             Intent intentBeginner = new Intent(mContext, QuizActivity.class);
             intentBeginner.putExtra("Level",1);

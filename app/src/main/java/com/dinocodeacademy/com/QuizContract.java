@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 public final class QuizContract {
 
 
+    // define constants for database table
     public QuizContract(){
     }
 

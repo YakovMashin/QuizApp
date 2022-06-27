@@ -38,7 +38,7 @@ public class FinalDialog100 extends AppCompatActivity {
             intentPutExtra(score,totalQuestion,correctQues,wrongQues,category,Level);
         });
     }
-
+ // method passes info to ResultActivity
     protected void intentPutExtra(int score, int total, int correct, int wrong,String category, int level){
         Intent resultData = new Intent(this, ResultActivity.class);
 

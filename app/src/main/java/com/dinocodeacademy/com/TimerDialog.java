@@ -20,8 +20,8 @@ public class TimerDialog {
     }
     
     public void timerDialog(){
-        
-        
+
+        // init new dialog
         TimerDialog = new Dialog(mContext);
         TimerDialog.setContentView(R.layout.timer_dialog);
         Objects.requireNonNull(TimerDialog.getWindow()).getAttributes().windowAnimations = R.style.DialogAnimation;

@@ -43,7 +43,6 @@ public class LoginActivity extends SignUp implements View.OnClickListener{
             case R.id.forgot_tv:
                 Intent i = new Intent(LoginActivity.this,ForgotPassword.class);
                 startActivity(i);
-
                 break;
 
 
@@ -51,6 +50,7 @@ public class LoginActivity extends SignUp implements View.OnClickListener{
     }
 
     private void userLogin() {
+        // validation
         String email = et_Email.getText().toString().trim();
         String password = et_Password.getText().toString().trim();
 
@@ -79,13 +79,13 @@ public class LoginActivity extends SignUp implements View.OnClickListener{
             if(task.isSuccessful()){
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
-                if(user.isEmailVerified()) {
+                if(user.isEmailVerified()) { // if user already verified log him
                     progressBar.setVisibility(View.GONE);
-                    finishAffinity();
+                    finishAffinity(); // remove from the stack
                     Intent i = new Intent(LoginActivity.this, SplashScreen.class);
                     startActivity(i);
                 }
-                else{
+                else{ // else send a verification
                     Toast.makeText(LoginActivity.this,
                             "check you inbox for mail verification",
                             Toast.LENGTH_LONG).show();

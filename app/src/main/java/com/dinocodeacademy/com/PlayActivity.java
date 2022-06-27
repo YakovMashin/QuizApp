@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 public class PlayActivity extends AppCompatActivity {
 
 
-    private long backPressedTime;
+    private long backPressedTime; // used to detect if the user pressed more than once in a certain time span
     private FirebaseUser user;
 
     private String userID;
@@ -39,7 +39,7 @@ public class PlayActivity extends AppCompatActivity {
 
         btPlay.setOnClickListener(v -> {
 
-            Intent intent = new Intent(PlayActivity.this, CategoryActivity.class);
+            Intent intent = new Intent(PlayActivity.this, CategoryActivity.class); // go to categories
             startActivity(intent);
 
         });
@@ -55,7 +55,7 @@ public class PlayActivity extends AppCompatActivity {
                 if(userName !=null){
                     String fullname = userName.fullName;
 
-                    helloUser.setText("Hey " + fullname);
+                    helloUser.setText("Hey " + fullname);// retrieve user's name from the database and greet him
                 }
             }
 
@@ -68,11 +68,10 @@ public class PlayActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public void onBackPressed() {
 
-        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) { // if the user presses to time in two seconds span than show alert dialog
 
             new AlertDialog.Builder(this)
                     .setTitle("Do you  want to exit?")

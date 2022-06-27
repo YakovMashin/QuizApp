@@ -20,6 +20,7 @@ public class ResultActivity extends AppCompatActivity {
     Button btnextLevel;
     Button btMainMenu;
 
+    // init shared prefs for high score
     private int highScore;
     public static final String SHARED_PREFERRENCE = "shread_prefrence";
     public static final String SHARED_PREFERRENCE_HIGH_SCORE = "shread_prefrence_high_score";
@@ -39,6 +40,7 @@ public class ResultActivity extends AppCompatActivity {
         txtCorrectQues = findViewById(R.id.result_Correct_Ques);
         txtWrongQues = findViewById(R.id.result_Wrong_Ques);
 
+// get the intnet from result dialogs
         Intent intent = getIntent();
 
         int score = intent.getIntExtra("UserScore",0);
@@ -56,8 +58,9 @@ public class ResultActivity extends AppCompatActivity {
 
         });
 
+        // go to next level quiz
         btnextLevel.setOnClickListener(v -> {
-            if(Level == 3){
+            if(Level == 3){ // reached max level
                 Toast.makeText(ResultActivity.this, "You've reached last level", Toast.LENGTH_LONG).show();
             }
             else {
@@ -68,9 +71,9 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
-        loadHighScore();
+        loadHighScore(); // load the ahsred prefs
 
-        if (score > highScore){
+        if (score > highScore){ // highscore broken
 
             updatHighScore(score);
         }
@@ -82,15 +85,17 @@ public class ResultActivity extends AppCompatActivity {
 
     private void updatHighScore(int newHighScore) {
 
-        highScore = newHighScore;
+        highScore = newHighScore; // update the highscore to user's recent score
         txtHighScore.setText("High Score: " + highScore);
 
+        // edit shared prefs accordingly
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERRENCE,MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(SHARED_PREFERRENCE_HIGH_SCORE,highScore);
         editor.apply();
     }
 
+    // get current high score from shared prefs
     private void loadHighScore() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERRENCE,MODE_PRIVATE);
         highScore = sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE, 0);

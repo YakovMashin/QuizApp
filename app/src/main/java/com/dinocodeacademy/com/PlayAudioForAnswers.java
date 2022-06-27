@@ -15,6 +15,7 @@ public class PlayAudioForAnswers {
 
 
     public void setAudioforAnswer(int flag) {
+        // play the correct audio based on passed flag from the Activity
             switch (flag) {
                 case 1:
                     int correctAudio = R.raw.correct;
@@ -30,7 +31,7 @@ public class PlayAudioForAnswers {
                     break;
             }
         }
-    private void playMusic(int audiofile) {
+    private void playMusic(int audiofile) { // play the audio file
 
         mediaPlayer = MediaPlayer.create(mContext,audiofile);
 

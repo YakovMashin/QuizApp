@@ -2,7 +2,6 @@ package com.dinocodeacademy.com;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,18 +41,14 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     Button back_btn,bt_apply_changes;
     TextView  tv_changePassword;
     LinearLayout linearLayout;
-    EditText et_Email, et_UserName, et_FullName;
+    EditText et_UserName, et_FullName;
 
     FirebaseAuth firebaseAuth;
-    private String fullname, username, email;
+    private String fullname, username;
     private long pressedTime;
     FirebaseUser user;
 
 
-
-    ///////////////////////////////////////////////////////////////////////////////////// SET UP BG MUSIC  ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); ///Eneter into fullscreen mode
@@ -64,7 +59,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         linearLayout = findViewById(R.id.main_content);
-        et_Email = findViewById(R.id.EMail);
         et_UserName = findViewById(R.id.USername);
         et_FullName = findViewById(R.id.fullName);
         back_btn = findViewById(R.id.prof_back_btn);
@@ -82,6 +76,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
 
         //Init Firebase
+        // retrieve user's data from the database
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://quiz-project-6afd9-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
@@ -92,18 +87,13 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    //if() {
+                    // set text with user's data
                          fullname = "" + Objects.requireNonNull(ds.child("fullName").getValue()).toString().trim();
                          username = "" + Objects.requireNonNull(ds.child("userName").getValue()).toString().trim();
-                         email = "" + Objects.requireNonNull(ds.child("email").getValue()).toString().trim();
-
-
 
                         //set data
                         et_FullName.setText(fullname);
                         et_UserName.setText(username);
-                        et_Email.setText(email);
-                    //}
                 }
             }
 
@@ -122,7 +112,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             startActivity(intent);
         });
 
-        tv_changePassword.setOnClickListener(v -> {
+        tv_changePassword.setOnClickListener(v -> { // show alert dialog while changing password
             if (pressedTime + 2000 > System.currentTimeMillis()) {
 
                 new AlertDialog.Builder(this)
@@ -142,8 +132,8 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             pressedTime = System.currentTimeMillis();
 
         });
-        bt_apply_changes.setOnClickListener(v -> {
-            String Email =et_Email.getText().toString().trim();// eliminate extra spaces
+        bt_apply_changes.setOnClickListener(v -> {// eliminate extra spaces
+            // validate new data
             String userName =et_UserName.getText().toString().trim();
             String fullName =et_FullName.getText().toString().trim();
 
@@ -158,19 +148,13 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                 et_UserName.requestFocus();
                 return;
             }
-            if(email.isEmpty()){
-                et_Email.setError("Please enter your email");
-                et_Email.requestFocus();
-                return;
-            }
-            if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                et_Email.setError("Please provide a valid email");
-                et_Email.requestFocus();
-            }
-            if(!emailChanged() && !userNameChanged() && !nameChanged())
+
+            // if nothing has changed don't call database func
+            if(!userNameChanged() && !nameChanged())
                 Toast.makeText(UserProfileActivity.this, "The data is the same", Toast.LENGTH_LONG).show();
 
-            else {
+            else {// data changed
+                // set new values in database
                 if (userNameChanged()) {
                     databaseReference.child(user.getUid()).child("userName").setValue(userName);
                     Toast.makeText(UserProfileActivity.this, "your username has been updated", Toast.LENGTH_LONG).show();
@@ -179,25 +163,12 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                     databaseReference.child(user.getUid()).child("fullName").setValue(fullName);
                     Toast.makeText(UserProfileActivity.this, "your name has been updated", Toast.LENGTH_LONG).show();
                 }
-                if (emailChanged()) {
-                    databaseReference.child(user.getUid()).child("email").setValue(Email);
-                    Toast.makeText(UserProfileActivity.this, "please confirm new email and Login", Toast.LENGTH_LONG).show();
-                    firebaseAuth.signOut();
-                    startActivity(new Intent(this, LoginActivity.class));
-                }
+
             }
         });
-
-
     }
-
     private boolean userNameChanged() {
         return !username.equals(et_UserName.getText().toString().trim());
-
-    }
-
-    private boolean emailChanged() {
-        return !email.equals(et_Email.getText().toString().trim());
 
     }
 

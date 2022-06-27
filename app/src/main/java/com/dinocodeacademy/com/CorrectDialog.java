@@ -22,6 +22,7 @@ public class CorrectDialog   {
 
     public void correctDialog(int score, final QuizActivity quizActivity, int streakCounter, final OnFireDialog onFire, int questionCounter, int size){
 
+        // init new dialog
         correctDialog = new Dialog(mContext);
         correctDialog.setContentView(R.layout.correct_dialog);
         correctDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -30,7 +31,7 @@ public class CorrectDialog   {
         score(score);
         btCorrectDialog.setOnClickListener(v -> {
             correctDialog.dismiss();
-            quizActivity.showQuestions();
+            quizActivity.showQuestions(); // go back to quiz and show questions
         });
 
         correctDialog.show();
@@ -39,15 +40,16 @@ public class CorrectDialog   {
 
         Objects.requireNonNull(correctDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        if(streakCounter %5 ==0 && streakCounter !=0 && questionCounter != size){
+        if(streakCounter %5 ==0 && streakCounter !=0 && questionCounter != size){ // show streak dialog if there is a streak
+
             correctDialog.dismiss();
-            onFire.onFireDialog(correctDialog, quizActivity);
-            quizActivity.multiplier = 2;
+            onFire.onFireDialog(correctDialog, quizActivity);// show the dialog in quiz activity instead of correct dialog
+            quizActivity.multiplier = 2; // introduce double points
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private void score(int score) {
+    private void score(int score) { // calculate the score
 
         TextView textViewScore = correctDialog.findViewById(R.id.text_score);
         textViewScore.setText("Score: " + score);

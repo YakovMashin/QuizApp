@@ -49,15 +49,15 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         levelsDialog = new LevelsDialog(this);
 
         toolbar  = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);// set tool bar as an action bar in the activity
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState(); // sync the drawer state while toolbar pressed
 
-        navigationDrawer();
+        navigationDrawer(); // init the drawer
 
     }
 
@@ -65,6 +65,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
 
         switch (view.getId()) {
+            //show levels dialog ans pass the theme
             case R.id.bt_hist_start:
                 levelsDialog.LevelsDialog(Constants.HISTORY);
                 break;
@@ -79,7 +80,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
 
         }
 
-    }
+    } // close the drawer while closing the activity
     public void onBackPressed() {
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
@@ -90,6 +91,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    // drawer items actions
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.nav_home) {
@@ -120,7 +122,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
 
-        toolbar.setOnClickListener(v -> {
+        toolbar.setOnClickListener(v -> { // open the drawer while tool bar is pressed or close it if it's already open
             if (drawer.isDrawerVisible(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {drawer.openDrawer(GravityCompat.START);}
